@@ -16,28 +16,13 @@
             ControlPersist = "10m";
           };
         };
-        "imac" = {
-          hostname = "imac.REDACTED.ts.net";
-          user = "mar";
-          extraOptions = {
-            RequestTTY = "force";
-          };
-        };
-        "nixos" = {
-          hostname = "nixos.REDACTED.ts.net";
-          user = "mar";
-          extraOptions = {
-            RequestTTY = "force";
-          };
-        };
-        "fedora" = {
-          hostname = "fedora.REDACTED.ts.net";
-          user = "mar";
-          extraOptions = {
-            RequestTTY = "force"; # This is crucial for the v fzf function
-            # RemoteCommand = "zellij attach --create fedora";
-          };
-        };
+        # "pc" = {
+        #   hostname = "pc.REDACTED.ts.net";
+        #   user = "admin";
+        #   extraOptions = {
+        #     RequestTTY = "force";
+        #   };
+        # };
       };
     };
   };
