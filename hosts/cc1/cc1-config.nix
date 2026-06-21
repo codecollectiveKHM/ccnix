@@ -34,7 +34,7 @@
   users.users.alle = {
     isNormalUser = true;
     description = "alle";
-    passwordFile = "/home/admin/secrets/alle-pass";
+    hashedPasswordFile = "/etc/alle.pass";
     shell = pkgs.bash; # or pkgs.zsh if you want
     home = "/home/alle";
     createHome = true;

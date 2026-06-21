@@ -1,7 +1,7 @@
 {
   disko.devices = {
     disk = {
-      cosmos-disk = {
+      cclab-disk = {
         type = "disk";
         device = "/dev/disk/by-id/a5f1492c-f60d-489c-9902-91e545dd3c38";
         content = {
@@ -53,8 +53,3 @@
     };
   };
 }
-# lsblk -- Look for primary internal disk
-# sudo nix run 'github:nix-community/disko/latest#disko-install' -- \
-#   --write-efi-boot-entries \
-#   --flake 'github:paramuno/yourrepo#new-host' \
-#   --disk main /dev/nvme0n1 or /dev/sda:sdb
