@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -17,6 +18,32 @@
 
   networking.hostName = "cc2";
   system.stateVersion = "26.05";
+
+  # Shared nvme (old cc2 LUKS + Ubuntu): own ESP, GRUB menu
+  boot.loader = {
+    systemd-boot.enable = lib.mkForce false;
+    timeout = 5;
+    grub = {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      useOSProber = false;
+      extraEntries = ''
+        menuentry "Ubuntu" {
+          insmod ext2
+          search --no-floppy --fs-uuid --set=root fbd9a060-351b-446b-9121-9abc471b9bb0
+          linux /boot/vmlinuz root=UUID=fbd9a060-351b-446b-9121-9abc471b9bb0 ro quiet splash
+          initrd /boot/initrd.img
+        }
+        menuentry "Windows" {
+          insmod part_gpt
+          insmod fat
+          search --no-floppy --fs-uuid --set=root 8206-8EAC
+          chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+        }
+      '';
+    };
+  };
 
   # ── GPU & Hardware ──────────────────────────────────────────────────
   services.xserver.videoDrivers = [ "nvidia" ];
