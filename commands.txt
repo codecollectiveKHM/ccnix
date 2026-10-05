@@ -7,7 +7,7 @@ chmod 600 /tmp/seed/etc/*.pass
 sudo nix --extra-experimental-features "nix-command flakes" run \
   github:nix-community/disko/latest#disko-install -- \
   --write-efi-boot-entries \
-  --flake github:paramuno/ccnix#cc1 \
+  --flake github:codecollectiveKHM/ccnix#cc1 \
   --disk cclab-disk /dev/nvme0n1 \
   --extra-files /tmp/seed /
 
