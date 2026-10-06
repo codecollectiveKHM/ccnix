@@ -51,6 +51,7 @@
       export STARSHIP_HOST_ICON="*󰲠 "
     '';
     zsh.shellAliases = {
+      ns = "cd ~/.config/home-manager && git add -A && sudo nixos-rebuild switch --flake .#cc2 && cd -";
     };
   };
 
