@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 # Wraps RAVE's uv venv with LD_LIBRARY_PATH so unpatched wheels (numpy, torch)
 # find libstdc++ / libsndfile / libcuda. nix-ld does not cover venv pythons.
 let
@@ -21,7 +26,10 @@ let
 
   rave = pkgs.writeShellApplication {
     name = "rave";
-    runtimeInputs = [ pkgs.uv ];
+    runtimeInputs = [
+      pkgs.uv
+      pkgs.ffmpeg
+    ];
     text = ''
       export LD_LIBRARY_PATH="${libPath}:/run/opengl-driver/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
       venv="''${RAVE_VENV:-${cfg.venvDir}}"
@@ -49,13 +57,13 @@ in
 
     torchBackend = lib.mkOption {
       type = lib.types.str;
-      default = "cu128";
+      default = "cu132";
       description = "uv --torch-backend value (cu128, cu126, cpu, auto).";
     };
 
     python = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.python312;
+      default = pkgs.python311;
       description = "Interpreter used to seed the venv.";
     };
 
@@ -73,9 +81,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.variables.RAVE_LD_LIBRARY_PATH = "${libPath}:/run/opengl-driver/lib";
     environment.systemPackages = [
       rave
       pkgs.uv
+      pkgs.ffmpeg
     ];
   };
 }

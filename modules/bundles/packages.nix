@@ -40,6 +40,7 @@
     uv # Python tooling
     pixi # Python tooling
     python3 # Python
+    xxd
 
     # (writeShellScriptBin "forgecode" ''
     #   # LLM Harness open to try with Gemini Flash
