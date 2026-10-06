@@ -5,6 +5,7 @@
 {
   imports = [
     ../../modules/shared.nix
+    ../../modules/misc/labguide-list.nix
   ];
   home.stateVersion = "25.05";
 
