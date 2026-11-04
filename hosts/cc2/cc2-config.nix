@@ -71,6 +71,24 @@
       "audio"
     ];
   };
+
+  home-manager.users.alle =
+    { pkgs, inputs, ... }:
+    {
+      imports = [
+        inputs.ags.homeManagerModules.default
+        ../../modules/apps/labguide.nix
+        ../../modules/misc/labguide-list.nix
+      ];
+      home.stateVersion = "25.05";
+      programs.ags.enable = true;
+      home.packages = with pkgs; [
+        figlet
+        fastfetch
+        kitty
+      ];
+    };
+
   # services.displayManager.autoLogin = {
   #   enable = true;
   #   user = "alle";
