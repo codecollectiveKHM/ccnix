@@ -29,6 +29,9 @@
           "browser.download.folderList" = 2; # 0 desktop | 1 system downloads | 2 custom location
           "browser.download.dir" = "${config.home.homeDirectory}/Downloads";
           "browser.quitShortcut.disabled" = true; # no <C-q> to quit
+          "extensions.update.enabled" = false; # nix pins addon versions
+          "extensions.webextensions.keepStorageOnUninstall" = true;
+          "extensions.webextensions.keepUuidOnUninstall" = true;
         };
         search = {
           force = true;
@@ -87,7 +90,6 @@
             darkreader
             violentmonkey
             bitwarden
-            onetab
             reddit-enhancement-suite
             copy-as-markdown
             ublock-origin
@@ -117,6 +119,14 @@
                 license = licenses.unfree;
                 platforms = platforms.all;
               };
+            })
+            (buildFirefoxXpiAddon {
+              pname = "onetab";
+              version = "2.20";
+              addonId = "extension@one-tab.com";
+              url = "https://addons.mozilla.org/firefox/downloads/file/5042610/onetab-2.20.xpi";
+              sha256 = "f4cbd1015e1c265f31dc7d8e74252b7ac57dafe93bd3df32d8e64d59230f4174";
+              meta.license = pkgs.lib.licenses.unfree;
             })
           ];
       };

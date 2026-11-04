@@ -4,6 +4,7 @@
 }:
 {
   myModules.apps = {
+    plasma.enable = true;
     dunst.enable = true;
     eza.enable = true;
     fzf.enable = true;
