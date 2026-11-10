@@ -79,7 +79,11 @@
         inputs.ags.homeManagerModules.default
         ../../modules/apps/labguide.nix
         ../../modules/misc/labguide-list.nix
+        ../../modules/apps/plasma.nix
+        ../../modules/apps/yazi.nix
       ];
+      myModules.apps.plasma.enable = true;
+      myModules.apps.yazi.enable = true;
       home.stateVersion = "25.05";
       programs.ags.enable = true;
       home.packages = with pkgs; [
@@ -88,11 +92,6 @@
         kitty
       ];
     };
-
-  # services.displayManager.autoLogin = {
-  #   enable = true;
-  #   user = "alle";
-  # };
 
   # ── Services & programs ────────────────────────────────────────────────────────
   # For Bottles
