@@ -1,4 +1,7 @@
 { config, ... }:
+let
+  home = config.home.homeDirectory;
+in
 {
   programs.home-manager.enable = true;
 
@@ -15,11 +18,27 @@
     recursive = true;
   };
 
+  # Writes user-dirs.dirs + user-dirs.conf (enabled=False) so xdg-user-dirs-update stops rewriting it
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    desktop = "${home}/Desktop";
+    documents = "${home}/Documents";
+    publicShare = home;
+    download = home;
+    templates = home;
+    music = home;
+    pictures = home;
+    videos = home;
+  };
+
   xdg.configFile = {
-    "nvim".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/home-manager/static/nvim";
-    "user-dirs.dirs".source = ../../static/user-dirs.dirs;
-    "mimeapps.list".source = ../../static/mimeapps.list;
+    "nvim".source = config.lib.file.mkOutOfStoreSymlink "${home}/.config/home-manager/static/nvim";
+    # Apps rewrite this; force keeps HM authoritative
+    "mimeapps.list" = {
+      source = ../../static/mimeapps.list;
+      force = true;
+    };
     "browser".source = ../../static/browser; # browser dotfiles
 
     "fd/ignore".text = ''
