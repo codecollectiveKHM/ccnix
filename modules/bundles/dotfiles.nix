@@ -22,6 +22,7 @@ in
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
+    setSessionVariables = true; # legacy default; HM 26.05 flips to false
     desktop = "${home}/Desktop";
     documents = "${home}/Documents";
     publicShare = home;
