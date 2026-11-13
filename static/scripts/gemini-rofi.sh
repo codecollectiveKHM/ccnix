@@ -1,27 +1,30 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Pure bash URL encoding function
-urlencode() {
-  local length="${#1}"
-  for ((i = 0; i < length; i++)); do
-    local c="${1:i:1}"
-    case $c in
-    [a-zA-Z0-9.~_-]) printf "%s" "$c" ;;
-    *) printf '%%%02X' "'$c" ;;
-    esac
-  done
-}
+PROMPTS="${XDG_CONFIG_HOME:-$HOME/.config}/gemini-rofi/prompts"
+RTHEME='window {width: 60%;}'
 
-# 1. Prompt the user for input.
-PROMPT=$(rofi -dmenu -p "Gemini:" -theme-str 'window {width: 60%;} listview {lines: 0;}')
+mapfile -t flags < <(ls "$PROMPTS" 2>/dev/null | sed 's|\.md$||; s|^|/|')
+sel=$(printf '%s\n' "${flags[@]}" |
+  rofi -dmenu -p "Gemini:" \
+    -theme-str "$RTHEME listview {lines: ${#flags[@]}; dynamic: true;}") || exit 0
+[ -z "$sel" ] && exit 0
 
-# 2. Exit immediately if the user presses Escape or submits an empty string.
-if [ -z "$PROMPT" ]; then
-  exit 0
+flag=${sel%% *}
+rest=${sel#"$flag"}
+rest=${rest# }
+tpl="$PROMPTS/${flag#/}.md"
+
+if [[ "$flag" == /* && -r "$tpl" ]]; then
+  if [ -z "$rest" ]; then
+    rest=$(rofi -dmenu -p "${flag#/}" -filter "$(wl-paste 2>/dev/null || true)" \
+      -theme-str "$RTHEME listview {lines: 0;}" </dev/null) || exit 0
+  fi
+  PROMPT="$(<"$tpl")"$'\n\n'"$rest"
+else
+  PROMPT="$sel"
 fi
 
-# 3. URL-encode the prompt using the native bash function.
-ENCODED_PROMPT=$(urlencode "$PROMPT")
-
-# 4. Pass the final URL to the default browser.
-xdg-open "https://gemini.google.com/app?prompt=$ENCODED_PROMPT"
+[ -z "$PROMPT" ] && exit 0
+Q=$(jq -rn --arg x "$PROMPT" '$x|@uri')
+firefox --new-tab "https://gemini.google.com/u/0/app?q=$Q"

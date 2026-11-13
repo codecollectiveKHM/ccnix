@@ -1,3 +1,4 @@
 secrets/hostkeys/*
 !secrets/hostkeys/*.pub
 .direnv/
+/result*
