@@ -24,6 +24,7 @@
     opencode.url = "github:anomalyco/opencode";
     zjstatus.url = "github:dj95/zjstatus";
     comfyui-nix.url = "github:utensils/comfyui-nix";
+    colmena.url = "github:zhaofengli/colmena";
   };
 
   outputs =
@@ -117,5 +118,6 @@
         deployment = node.deployment;
       }) (byType "nixos");
 
+      colmenaHive = inputs.colmena.lib.makeHive self.outputs.colmena;
     };
 }
