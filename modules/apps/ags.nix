@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 # Requires mutable json structure
 {
   options.myModules.apps.ags.enable = lib.mkEnableOption "ags";
@@ -6,7 +11,7 @@
     programs.ags = {
       enable = true;
       extraPackages = with pkgs; [
-        gtksourceview
+        gtksourceview3
       ];
     };
 

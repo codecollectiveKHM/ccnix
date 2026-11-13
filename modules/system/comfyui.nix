@@ -1,6 +1,8 @@
 { inputs, pkgs, ... }:
 {
+  disabledModules = [ "services/misc/comfyui.nix" ];
   imports = [ inputs.comfyui-nix.nixosModules.default ];
+
   nixpkgs.overlays = [ inputs.comfyui-nix.overlays.default ];
 
   services.comfyui = {
