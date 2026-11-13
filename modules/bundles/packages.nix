@@ -43,6 +43,8 @@
     statix # so nvim stops complaining
     gh # github CLI
     dnsutils # debugging fileshare
+    ffmpeg # video tooling
+    yq # cml YAML JSON XML processor
     uv # Python tooling
     (pixi.overrideAttrs (old: {
       buildInputs = (old.buildInputs or [ ]) ++ [

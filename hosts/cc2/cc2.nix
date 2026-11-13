@@ -18,6 +18,7 @@
     pureref.enable = true;
     t3code.enable = true;
     pi.enable = true; # Configured to use gemma4
+    whisper.enable = true; # CUDA transcribe + dictate
   };
 
   home.sessionVariables = {

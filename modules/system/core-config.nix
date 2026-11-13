@@ -128,6 +128,7 @@
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc.lib
     zlib
+    openssl
     config.hardware.nvidia.package
   ];
 }

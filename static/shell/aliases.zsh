@@ -1,3 +1,6 @@
+# Document management
+alias convert="libreoffice --headless --convert-to"
+
 # Zellij
 alias zj="zellij"
 alias za="zellij attach -c"

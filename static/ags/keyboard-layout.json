@@ -2811,11 +2811,6 @@
         "icon": "",
         "type": "action"
       },
-      "N": {
-        "desc": "comment liNe",
-        "icon": "",
-        "type": "action"
-      },
       "M": {
         "desc": "nohighlights",
         "icon": "",
@@ -2823,6 +2818,11 @@
       },
       "U": {
         "desc": "Undotree",
+        "icon": "",
+        "type": "action"
+      },
+      "C": {
+        "desc": "comment line",
         "icon": "",
         "type": "action"
       }
@@ -3107,6 +3107,70 @@
       },
       "H": {
         "desc": "~/",
+        "icon": "",
+        "type": "action"
+      }
+    },
+    "org.pwmt.zathura": {
+      "J": {
+        "desc": "Down line",
+        "icon": "",
+        "type": "action"
+      },
+      "K": {
+        "desc": "Up line",
+        "icon": "",
+        "type": "action"
+      },
+      "H": {
+        "desc": "Left column",
+        "icon": "",
+        "type": "action"
+      },
+      "L": {
+        "desc": "Right column",
+        "icon": "",
+        "type": "action"
+      },
+      "Y": {
+        "desc": "Right page",
+        "icon": "",
+        "type": "action"
+      },
+      "T": {
+        "desc": "Left page",
+        "icon": "",
+        "type": "action"
+      }
+    },
+    "org.pwmt.zathura-ctrl": {
+      "D": {
+        "desc": "Down 1/2 pg ",
+        "icon": "",
+        "type": "action"
+      },
+      "U": {
+        "desc": "Up 1/2 pg",
+        "icon": "",
+        "type": "action"
+      },
+      "Y": {
+        "desc": "RIght 1/2 pg",
+        "icon": "",
+        "type": "action"
+      },
+      "T": {
+        "desc": "Left 1/2 pg",
+        "icon": "",
+        "type": "action"
+      },
+      "B": {
+        "desc": "Down page",
+        "icon": "",
+        "type": "action"
+      },
+      "F": {
+        "desc": "Up page",
         "icon": "",
         "type": "action"
       }
