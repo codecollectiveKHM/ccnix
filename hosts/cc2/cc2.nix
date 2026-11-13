@@ -18,7 +18,6 @@
     pureref.enable = true;
     t3code.enable = true;
     pi.enable = true; # Configured to use gemma4
-    zotero.enable = true;
   };
 
   home.sessionVariables = {
