@@ -15,6 +15,7 @@
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9zHr4+PtAx3W18a/g96OarrbxPlh3r+4RpWLYPCWFI"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZjlV5gu2Nzn8AvNJjdLRLEIx6egXDNiHZZTjJyNbl/ admin@cc2"
     ];
   };
 
@@ -22,6 +23,7 @@
     hashedPasswordFile = "/etc/admin.pass";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9zHr4+PtAx3W18a/g96OarrbxPlh3r+4RpWLYPCWFI"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZjlV5gu2Nzn8AvNJjdLRLEIx6egXDNiHZZTjJyNbl/ admin@cc2"
     ];
   };
   security.sudo.wheelNeedsPassword = true;
