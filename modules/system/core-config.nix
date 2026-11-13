@@ -98,20 +98,20 @@
         # 2. CONFIG: Point directly to your Home Manager file using a relative path
         configFile = ../../static/kanata/config-nixos.kbd;
 
-        # 3. SCRIPTS: Open the TCP port for hyprkan
+        # 3. SCRIPTS: Open the TCP port for hyprkan, only when we fix it
         extraArgs = [
-          "-p"
+          # "-p"
           "10000"
         ];
       };
     };
   };
   # Override the strict security sandbox to allow Kanata to open a TCP port for hyprkan.py
-  systemd.services.kanata-default.serviceConfig.RestrictAddressFamilies = pkgs.lib.mkForce [
-    "AF_UNIX"
-    "AF_INET"
-    "AF_INET6"
-  ];
+  # systemd.services.kanata-default.serviceConfig.RestrictAddressFamilies = pkgs.lib.mkForce [
+  # "AF_UNIX"
+  # "AF_INET"
+  # "AF_INET6"
+  # ];
 
   environment.systemPackages = with pkgs; [
     brightnessctl
