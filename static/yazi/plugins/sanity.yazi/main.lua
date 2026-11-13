@@ -33,7 +33,7 @@ function M:peek(job)
 	end
 
 	local child, err = Command("chafa")
-		:args({
+		:arg({
 			"-f",
 			"symbols",
 			"--polite=on",

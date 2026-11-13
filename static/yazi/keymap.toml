@@ -11,12 +11,12 @@ desc = "Mount devices"
 
 [[mgr.prepend_keymap]]
 on = ["Z"]
-run = "shell --confirm '~/.scripts/unzip.sh \"$1\"'"
+run = "shell --confirm '~/.scripts/unzip.sh %h'"
 desc = "Move hovered zip to a new matching directory and extract"
 
 [[mgr.prepend_keymap]]
 on = ["<C-Enter>"]
-run = "shell --orphan --confirm '[ -d \"$1\" ] && kitty --working-directory \"$1\" || kitty'"
+run = "shell --orphan --confirm '[ -d %h ] && kitty --working-directory %h || kitty'"
 desc = "Open kitty at hovered directory"
 
 [[mgr.prepend_keymap]]

@@ -1,6 +1,6 @@
 #!/bin/bash
 # 1. Switch to an empty workspace to hide your windows
-hyprctl dispatch workspace empty
+hyprctl dispatch 'hl.dsp.focus({ workspace = "empty" })'
 
 # 2. Briefly wait for the workspace transition to finish (optional)
 sleep 0.1

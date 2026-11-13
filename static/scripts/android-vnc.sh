@@ -27,8 +27,8 @@ cleanup() {
 
     # 1. Wake screen
     echo "[*] Waking up laptop screen..."
-    hyprctl keyword monitor "$LAPTOP_DISPLAY, preferred, 0x0, 1"
-    hyprctl dispatch dpms on $LAPTOP_DISPLAY
+    hyprctl eval "hl.monitor({ output = '$LAPTOP_DISPLAY', mode = 'preferred', position = '0x0', scale = 1 })"
+    hyprctl dispatch "hl.dsp.dpms({ action = 'on', monitor = '$LAPTOP_DISPLAY' })"
 
     # Wait for display to wake up and close virtual monitor
     sleep 1
@@ -90,9 +90,9 @@ echo "[*] Turning off laptop display and creating headless monitor ($WIDTH x $HE
 # Create the new headless output
 hyprctl output create headless $OUTPUT_NAME
 # Places the phone to the RIGHT of your current screen automatically
-hyprctl keyword monitor $OUTPUT_NAME,${WIDTH}x${HEIGHT}@$FPS,auto,1
+hyprctl eval "hl.monitor({ output = '$OUTPUT_NAME', mode = '${WIDTH}x${HEIGHT}@$FPS', position = 'auto', scale = 1 })"
 # Disable laptop screen
-hyprctl keyword monitor "$LAPTOP_DISPLAY, disable"
+hyprctl eval "hl.monitor({ output = '$LAPTOP_DISPLAY', disabled = true })"
 
 
 

@@ -61,7 +61,7 @@ local function chafa_render(job, path)
 	child:start_kill()
 
 	if job.skip > 0 and i < job.skip + limit then
-		ya.manager_emit("peek", { tostring(math.max(0, i - limit)), only_if = job.file.url, upper_bound = true })
+		ya.emit("peek", { tostring(math.max(0, i - limit)), only_if = job.file.url, upper_bound = true })
 	else
 		ya.preview_widget(job, ui.Text.parse(lines):area(job.area))
 	end
@@ -97,7 +97,7 @@ function M:seek(job)
 	local h = cx.active.current.hovered
 	if h and h.url == job.file.url then
 		local step = math.floor(job.units * job.area.h / 10)
-		ya.manager_emit("peek", {
+		ya.emit("peek", {
 			tostring(math.max(0, cx.active.preview.skip + step)),
 			only_if = job.file.url,
 		})

@@ -13,9 +13,9 @@ prepend_rules = [
 
 [opener]
 remote_aware = [
-  { run = '$HOME/.scripts/yazi-open-or-mount.sh "$1"', orphan = true, desc = "Open (sshfs-mount if remote)", for = "unix" },
+  { run = '$HOME/.scripts/yazi-open-or-mount.sh %s1', orphan = true, desc = "Open (sshfs-mount if remote)", for = "unix" },
 ]
-edit = [{ run = 'nvim "$@"', block = true, desc = "Edit", for = "unix" }]
+edit = [{ run = 'nvim %s', block = true, desc = "Edit", for = "unix" }]
 
 [plugin]
 prepend_previewers = [
@@ -23,6 +23,6 @@ prepend_previewers = [
   { mime = "application/pdf", run = "sshpreview" },
 ]
 prepend_fetchers = [
-  { id = "git", url = "*", run = "git" },
-  { id = "git", url = "*/", run = "git" },
+  { group = "git", url = "*", run = "git" },
+  { group = "git", url = "*/", run = "git" },
 ]
