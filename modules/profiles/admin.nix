@@ -14,7 +14,7 @@
       kdePackages.kate
     ];
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9zHr4+PtAx3W18a/g96OarrbxPlh3r+4RpWLYPCWFI"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9zHr4+PtAx3W18a/g96OarrbxPlh3r+4RpWLYPCWFI admin@cc1"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZjlV5gu2Nzn8AvNJjdLRLEIx6egXDNiHZZTjJyNbl/ admin@cc2"
     ];
   };
@@ -22,7 +22,7 @@
   users.users.root = {
     hashedPasswordFile = "/etc/admin.pass";
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9zHr4+PtAx3W18a/g96OarrbxPlh3r+4RpWLYPCWFI"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9zHr4+PtAx3W18a/g96OarrbxPlh3r+4RpWLYPCWFI admin@cc1"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZjlV5gu2Nzn8AvNJjdLRLEIx6egXDNiHZZTjJyNbl/ admin@cc2"
     ];
   };
