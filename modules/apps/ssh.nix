@@ -5,23 +5,18 @@
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          hashKnownHosts = true;
-          extraOptions = {
-            IgnoreUnknown = "GSSAPIKexAlgorithms,GSSAPIAuthentication";
-            ControlMaster = "auto";
-            # ControlPath = "~/.ssh/%r@%h:%p";
-            ControlPath = "~/.ssh/master-%C"; # %C safe variable
-            ControlPersist = "10m";
-          };
+          IgnoreUnknown = "GSSAPIKexAlgorithms,GSSAPIAuthentication";
+          HashKnownHosts = true;
+          ControlMaster = "auto";
+          ControlPath = "~/.ssh/master-%C"; # %C safe variable
+          ControlPersist = "10m";
         };
         # "pc" = {
-        #   hostname = "pc.tailf072cc.ts.net";
-        #   user = "admin";
-        #   extraOptions = {
-        #     RequestTTY = "force";
-        #   };
+        #   HostName = "pc.tailf072cc.ts.net";
+        #   User = "admin";
+        #   RequestTTY = "force";
         # };
       };
     };

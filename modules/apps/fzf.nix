@@ -8,9 +8,9 @@
 
       # using fasd for file frequency ranking on results
       defaultCommand = "(fasd -Rfl 2>/dev/null; fd --type f --hidden) | awk 'seen[$ 0]++ == 0'";
-      fileWidgetCommand = "(fasd -Rfl 2>/dev/null; fd --type f --hidden) | awk 'seen[$ 0]++ == 0'";
+      fileWidget.command = "(fasd -Rfl 2>/dev/null; fd --type f --hidden) | awk 'seen[$ 0]++ == 0'";
 
-      changeDirWidgetCommand = "fd --type d --hidden";
+      changeDirWidget.command = "fd --type d --hidden";
 
       colors = {
         "bg+" = "#363a4f";
@@ -30,7 +30,7 @@
         "--margin=1,2"
         "--tiebreak=index" # Force fzf to follow fasd ordering first
       ];
-      fileWidgetOptions = [
+      fileWidget.options = [
         "--preview 'bat --color=always --style=plain {} 2>/dev/null'"
         "--preview-window=right:60%:border-left"
         "--height=80%"

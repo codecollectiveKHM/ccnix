@@ -15,7 +15,7 @@ let
     hash = "sha256-U3dyoVX76l46W7ypGqj7Riqpb8Cb42aOtmaqD+WMcDU=";
   };
 
-  appimageContents = pkgs.appimageTools.extractType2 { inherit pname version src; };
+  appimageContents = pkgs.appimageTools.extract { inherit pname version src; };
 in
 {
   options.myModules.apps.pureref.enable = lib.mkEnableOption "pureref";
