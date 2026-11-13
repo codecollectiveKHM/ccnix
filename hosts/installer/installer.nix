@@ -12,6 +12,7 @@ in
 {
   imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix" ];
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.hostPlatform = "x86_64-linux";
   networking.wireless.enable = lib.mkForce false;
 
   # Salted hash only (not a private key). Impure read at build, lives ISO-local.
