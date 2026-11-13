@@ -41,6 +41,7 @@ in
       force = true;
     };
     "browser".source = ../../static/browser; # browser dotfiles
+    "gemini-rofi".source = ../../static/gemini-rofi; # rofi prompt library
 
     "fd/ignore".text = ''
       .local/share/Trash/
