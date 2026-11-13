@@ -6,7 +6,13 @@
     jan # llm OSS manager
     poppler-utils # pdfunite pdftoppm, pdfinfo
     qpdf # merge encrypted pdfs
-    anydesk # remote working
+    (anydesk.overrideAttrs (old: {
+      src = pkgs.fetchurl {
+        inherit (old.src) urls;
+        hash = "sha256-zS5P2eyTHZY7cBW8mQ2Q6M0lXcx9VZZTtpG3Bb6u7IQ=";
+      };
+    }))
+    # remote working
     ast-grep # grep
     bat # cat w highlights & more
     btop # resource monitor
@@ -38,7 +44,13 @@
     gh # github CLI
     dnsutils # debugging fileshare
     uv # Python tooling
-    pixi # Python tooling
+    (pixi.overrideAttrs (old: {
+      buildInputs = (old.buildInputs or [ ]) ++ [
+        pkgs.zstd
+        pkgs.aws-lc
+      ];
+    }))
+    # Python tooling
     python3 # Python
     xxd
 
