@@ -97,18 +97,6 @@
           ]
           ++ [
             (buildFirefoxXpiAddon {
-              pname = "gemini-url-search";
-              version = "1.0";
-              addonId = "gemini-search@felix-krueckel.com";
-              url = "https://addons.mozilla.org/firefox/downloads/file/4696808/gemini_url_search-1.0.xpi";
-              sha256 = "0lk5bn1s07ns7skqshcq32k0slbz52mciry48g1zhb31fkw70gvj";
-              meta = with pkgs.lib; {
-                description = "Search with Gemini from the URL bar";
-                license = licenses.unfree;
-                platforms = platforms.all;
-              };
-            })
-            (buildFirefoxXpiAddon {
               pname = "nonstop-vimium";
               version = "0.0.7"; # Verify current version
               addonId = "nonstop-vimium-c@example.com";
