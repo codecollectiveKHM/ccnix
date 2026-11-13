@@ -10,9 +10,9 @@ CURRENT_TRANSFORM=$(hyprctl monitors -j | jq -r ".[] | select(.name==\"$MONITOR\
 # If it's currently normal (0), rotate it to 90 degrees (1).
 # Otherwise, set it back to normal (0).
 if [ "$CURRENT_TRANSFORM" = "0" ]; then
-  hyprctl keyword monitor "$MONITOR, 3840x2160@60, auto, $SCALE, transform, 1"
+  hyprctl eval "hl.monitor({ output = '$MONITOR', mode = '3840x2160@60', position = 'auto', scale = $SCALE, transform = 1 })"
   notify-send "Rotation" "Screen set to Portrait"
 else
-  hyprctl keyword monitor "$MONITOR, 3840x2160@60, auto, $SCALE, transform, 0"
+  hyprctl eval "hl.monitor({ output = '$MONITOR', mode = '3840x2160@60', position = 'auto', scale = $SCALE, transform = 0 })"
   notify-send "Rotation" "Screen set to Landscape"
 fi

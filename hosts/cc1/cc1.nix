@@ -30,16 +30,8 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-
     extraConfig = ''
-      # exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=hyprland
-      exec-once = dbus-update-activation-environment --systemd --all
-
-      source = ~/.config/hypr/sources.conf
-
-      input {
-          sensitivity = -1.0
-      }
+      hl.config({ input = { sensitivity = -1.0 } })
     '';
   };
 
