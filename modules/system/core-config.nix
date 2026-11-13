@@ -97,12 +97,7 @@
 
         # 2. CONFIG: Point directly to your Home Manager file using a relative path
         configFile = ../../static/kanata/config-nixos.kbd;
-
-        # 3. SCRIPTS: Open the TCP port for hyprkan, only when we fix it
-        extraArgs = [
-          # "-p"
-          "10000"
-        ];
+        port = 10000;
       };
     };
   };
