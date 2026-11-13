@@ -1,10 +1,21 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options.myModules.apps.zsh.enable = lib.mkEnableOption "zsh";
   config = lib.mkIf config.myModules.apps.zsh.enable {
     programs.zsh = {
       enable = true;
       dotDir = "${config.xdg.configHome}/zsh";
+
+      history = {
+        path = "${config.xdg.configHome}/zsh/history";
+        size = 50000;
+        save = 50000;
+      };
 
       oh-my-zsh = {
         enable = true;
@@ -17,21 +28,27 @@
       syntaxHighlighting.enable = true;
 
       initContent = ''
-        # 1. Force load Home Manager session variables to bypass Wayland drops
-        if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
-        source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-        fi
+         # 1. Force load Home Manager session variables to bypass Wayland drops
+         if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+         source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+         fi
 
-        source "$HOME/.config/shell/init.zsh"
+         source "$HOME/.config/shell/init.zsh"
 
-        # Load zsh-autocomplete LAST to ensure it hooks everything correctly
-        source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+         # Load zsh-autocomplete LAST to ensure it hooks everything correctly
+         source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
-        # Reclaim <C-s> from autocomplete
-        bindkey '^S' fzf-history-widget
+        # Reclaim Up/Down arrows from zsh-autocomplete (both CSI and Application mode)
+         bindkey '^[[A' up-line-or-search
+         bindkey '^[OA' up-line-or-search
+         bindkey '^[[B' down-line-or-search
+         bindkey '^[OB' down-line-or-search
 
-        # Reclaim these fasd bindings, this removes the Alt-l closing shell bug
-        bindkey -r '^[l' '^[j' '^[k' '^[h'
+         # Reclaim <C-s> from autocomplete
+         bindkey '^S' fzf-history-widget
+
+         # Reclaim these fasd bindings, this removes the Alt-l closing shell bug
+         bindkey -r '^[l' '^[j' '^[k' '^[h'
       '';
       envExtra = ''
         # This ensures the Nix profile is available for SSH / non-interactive commands

@@ -1,28 +1,19 @@
 { pkgs, ... }:
 {
-
   services.avahi = {
     enable = true;
-    nssmdns4 = true; # Allow resolution of .local domains
-    publish = {
-      enable = true;
-      userServices = true;
+    nssmdns4 = true;
+    settings.publish = {
+      disable-publishing = false;
+      disable-user-service-publishing = false;
+      publish-addresses = true;
     };
   };
 
   environment.systemPackages = with pkgs; [
-    # OBS wrapped with the directly overridden NDI plugin
     (wrapOBS {
       plugins = [
-        (pkgs.obs-studio-plugins.distroav.override {
-          ndi-6 = pkgs."ndi-6".overrideAttrs (old: {
-            src = old.src.overrideAttrs (oldSrc: {
-              # Forcefully inject both hash formats to satisfy the fetcher
-              hash = "sha256-8DFPJFRG3vxIi2POtGiazxqWWu79ray3BXG7IWqMwYM=";
-              outputHash = "sha256-8DFPJFRG3vxIi2POtGiazxqWWu79ray3BXG7IWqMwYM=";
-            });
-          });
-        })
+        obs-studio-plugins.distroav
       ];
     })
   ];
