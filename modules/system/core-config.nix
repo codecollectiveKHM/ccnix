@@ -75,11 +75,19 @@
   };
 
   # Virtual network for easy SSH
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      PermitRootLogin = "prohibit-password";
+    };
+  };
+  programs.ssh.startAgent = true;
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "client";
-    extraUpFlags = [ "--ssh" ];
+    extraSetFlags = [ "--ssh" ];
   };
 
   # ── Services & programs ──────────────────────────────────────────────────────
