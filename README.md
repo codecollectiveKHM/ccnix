@@ -1,16 +1,13 @@
 # ccnix
 
-NixOS + Home Manager flake for the Code Collective lab. Layout: [docs/TREE.md](docs/TREE.md)
+Code Collective lab NixOS fleet. Layout: [docs/TREE.md](docs/TREE.md)
 
 | Host | Notes |
 |---|---|
-| `cc1` | 5090, Ryzen 9 9950X, 186GB RAM (NixOS/Ubuntu/Windows11 |
-| `cc2` | 5090, Ryzen 9 9950X, 186GB RAM (NixOS/Ubuntu/Windows11 |
-| `cc3` | 3070, i7-7700K, 32GB RAM (NixOS/Ubuntu/Windows10 |
-| `cc4` | 3090Ti, i7-7700K, 32GB RAM (NixOS/Ubuntu/Windows10 |
-| `installer` | unattended ISO (`hosts/installer/installer.nix`, target set inside) |
-
-All hosts: user `admin`, `x86_64-linux`, NVIDIA, role `workstation`, colmena tags `workstation` `linux`.
+| `cc1` | 5090, Ryzen 9 9950X, 186GB RAM (NixOS/Ubuntu/Windows11) |
+| `cc2` | 5090, Ryzen 9 9950X, 186GB RAM (NixOS/Ubuntu/Windows11) |
+| `cc3` | 3070, i7-7700K, 32GB RAM (NixOS/Ubuntu/Windows10) |
+| `cc4` | 3090Ti, i7-7700K, 32GB RAM (NixOS/Ubuntu) |
 
 ## Daily use
 
