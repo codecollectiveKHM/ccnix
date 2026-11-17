@@ -10,7 +10,9 @@
     home.packages = [
       # Creates a localized transient binary wrapper using node/npx
       (pkgs.writeShellScriptBin "pi" ''
-        exec ${pkgs.nodejs}/bin/npx --yes @earendil-works/pi-coding-agent "$@"
+        # node for pi's `#!/usr/bin/env node`; fd/rg so pi doesn't download its own
+        export PATH=${lib.makeBinPath [ pkgs.nodejs pkgs.fd pkgs.ripgrep ]}:$PATH
+        exec npx --yes @earendil-works/pi-coding-agent "$@"
       '')
     ];
 
@@ -23,7 +25,7 @@
           apiKey = "ollama";
           models = [
             {
-              id = "gemma4"; # Ensure this string matches your local `ollama list` output
+              id = "gemma4:e2b"; # must match `ollama list` / ollama.nix loadModels
               name = "Gemma 4 (Local)";
               contextWindow = 262144;
               supportsImages = false;
