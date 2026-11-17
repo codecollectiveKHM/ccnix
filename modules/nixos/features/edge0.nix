@@ -1,4 +1,5 @@
 # Edge0-145B (edge0-strata on CUDA) as an on-demand user unit for the primary user.
+# Server only: clients find it via myModules.ai.endpoints.edge0 (HM, per host).
 # Built by hand in ~/src/edge0 with the dev shell flake ~/src/edge0-env (not in this repo).
 # Start: systemctl --user start edge0 · logs: journalctl --user -u edge0 -f
 {

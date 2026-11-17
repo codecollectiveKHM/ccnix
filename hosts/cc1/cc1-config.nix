@@ -11,7 +11,6 @@
   myModules.system = {
     nvidia.enable = true;
     ollama.enable = true;
-    opencode.enable = true;
     comfyui = {
       enable = true;
       tailscaleServe = true;
@@ -42,7 +41,7 @@
         personal.enable = true;
       };
       myModules.apps = lib.mkMerge [
-        (lib.genAttrs [ "labguide" "pi" "t3code" ] (_: {
+        (lib.genAttrs [ "labguide" "opencode" "pi" "t3code" ] (_: {
           enable = true;
         }))
         # Bundle apps alle opts out of (keeps fzf git kitty lazygit ssh starship zsh)

@@ -8,7 +8,6 @@
   myModules.system = {
     nvidia.enable = true;
     ollama.enable = true;
-    opencode.enable = true;
     alle = {
       enable = true;
       lanSsh = true;
@@ -20,7 +19,7 @@
     {
       home.stateVersion = "25.05";
       programs.ags.enable = true;
-      myModules.apps = lib.genAttrs [ "labguide" "pi" "plasma" "yazi" ] (_: {
+      myModules.apps = lib.genAttrs [ "labguide" "opencode" "pi" "plasma" "yazi" ] (_: {
         enable = true;
       });
       home.packages = with pkgs; [
