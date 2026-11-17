@@ -1,3 +1,4 @@
+# Experiment, not auto-imported: add to a host's imports to try it.
 {
   config,
   lib,
@@ -21,8 +22,8 @@ let
   '';
 in
 {
-  options.myModules.apps.broot.enable = lib.mkEnableOption "piratebox";
-  config = lib.mkIf config.myModules.apps.broot.enable {
+  options.myModules.system.piratebox.enable = lib.mkEnableOption "piratebox";
+  config = lib.mkIf config.myModules.system.piratebox.enable {
 
     # Disable standard networking managers on the AP interface
     networking = {
@@ -88,7 +89,7 @@ in
         enable = true;
         alwaysKeepRunning = true;
         settings = {
-          interface = interface;
+          inherit interface;
           listen-address = gatewayIp;
           bind-interfaces = true;
           # DHCP Range

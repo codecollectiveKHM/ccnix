@@ -1,0 +1,16 @@
+# SSH public keys: one source for authorized_keys (modules/nixos/base/users.nix)
+# and agenix recipients (secrets/secrets.nix).
+rec {
+  users = {
+    cc1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP9zHr4+PtAx3W18a/g96OarrbxPlh3r+4RpWLYPCWFI admin@cc1";
+    cc2 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZjlV5gu2Nzn8AvNJjdLRLEIx6egXDNiHZZTjJyNbl/ admin@cc2";
+  };
+  # Devices allowed to log in as the primary user (and root) on every host
+  admins = [
+    users.cc1
+    users.cc2 # colmena deploys from cc2
+  ];
+
+  # `cat /etc/ssh/ssh_host_ed25519_key.pub` on each host (agenix recipients)
+  hosts = { };
+}

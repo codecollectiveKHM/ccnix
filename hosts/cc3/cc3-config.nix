@@ -1,61 +1,21 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+# cc3 — lab workstation
+{ pkgs, ... }:
 {
   imports = [
-    # Eventually change to optin structure for parity with apps
-    ../../modules/profiles/admin.nix
-    ../../modules/system/audio-config.nix
-    ../../modules/system/core-config.nix
-    ../../modules/system/gui-config.nix
-    ../../modules/system/ndi.nix
+    ./cc3-hardware.nix
+    ./cc3-disko.nix
   ];
-
-  networking.hostName = "cc3";
   system.stateVersion = "26.05";
 
-  # ── GPU & Hardware ──────────────────────────────────────────────────
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true; # Modesetting is required for Wayland and Hyprland
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    # Use the NVidia open source kernel module (Recommended for RTX 20-series+) not noveau driver
-    open = true;
-    nvidiaSettings = true; # Enable the Nvidia settings menu, via `nvidia-settings`.
-    package = config.boot.kernelPackages.nvidiaPackages.stable; # (stable, beta, production, etc.)
+  myModules.roles.workstation.enable = true; # desktop+plasma, audio, kanata, ndi
+  myModules.system = {
+    nvidia.enable = true;
+    alle.enable = true; # no Home Manager config
   };
 
-  # ── Alle user ──────────────────────────────────────────────────
-  users.users.alle = {
-    isNormalUser = true;
-    description = "alle";
-    hashedPasswordFile = "/etc/alle.pass";
-    shell = pkgs.bash; # or pkgs.zsh if you want
-    home = "/home/alle";
-    createHome = true;
-    extraGroups = [
-      "networkmanager"
-      "video"
-      "audio"
-    ];
-  };
-  # services.displayManager.autoLogin = {
-  #   enable = true;
-  #   user = "alle";
-  # };
-
-  # ── Services & programs ────────────────────────────────────────────────────────
-  # For Bottles
-  services.flatpak.enable = true;
+  services.flatpak.enable = true; # Bottles (HM nix-flatpak)
   fonts.packages = with pkgs; [
     corefonts
-    vista-fonts # Optional: Adds Calibri, Consolas, etc.
-  ];
-
-  environment.systemPackages = with pkgs; [
-    # ollama
+    vista-fonts # Calibri, Consolas, ...
   ];
 }
