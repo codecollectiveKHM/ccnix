@@ -1328,11 +1328,6 @@
         "icon": "",
         "type": "action"
       },
-      "O": {
-        "desc": "Obsidian vault toggle",
-        "icon": "󱝕",
-        "type": "action"
-      },
       "ENTER": {
         "desc": "Fzf nvim open",
         "icon": "󰈞",

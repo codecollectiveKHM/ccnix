@@ -35,7 +35,6 @@
             "pulseaudio"
             "network"
             "tray"
-            "custom/vault"
             "battery"
             "clock"
           ];
