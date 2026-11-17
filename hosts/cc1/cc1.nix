@@ -16,6 +16,7 @@
         "flatpak"
         "labguide" # desktop widget (list: modules/home/apps/labguide.nix)
         "t3code"
+        "opencode"
         "pi" # gemma4
       ]
       (_: {

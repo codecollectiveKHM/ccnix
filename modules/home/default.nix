@@ -9,6 +9,7 @@ in
   imports = [
     inputs.ags.homeManagerModules.default # before anything references programs.ags
     inputs.nix-flatpak.homeManagerModules.nix-flatpak
+    ./ai-endpoints.nix
   ]
   ++ nixFiles ./bundles
   ++ nixFiles ./apps;

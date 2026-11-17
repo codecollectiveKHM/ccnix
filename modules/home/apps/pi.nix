@@ -16,48 +16,17 @@
       '')
     ];
 
-    # Hardwires your Ollama/Gemma4 definition strictly on this node
     home.file.".pi/agent/models.json".text = builtins.toJSON {
-      providers =
-        lib.optionalAttrs config.myModules.apps.edge0.enable {
-          edge0 = {
-            baseUrl = "http://localhost:8000/v1";
-            api = "openai-completions";
-            apiKey = "none";
-            models = [
-              {
-                id = "edge0_145b";
-                name = "Edge0 145B";
-                contextWindow = 131072;
-                supportsImages = false;
-                supportsTools = true;
-              }
-            ];
-          };
-        }
-        // {
-          ollama = {
-            baseUrl = "http://localhost:11434/v1";
-            api = "openai-completions";
-            apiKey = "ollama";
-            models = [
-              {
-                id = "gemma4:e2b"; # must match `ollama list` / ollama.nix loadModels
-                name = "Gemma 4 (Local)";
-                contextWindow = 262144;
-                supportsImages = false;
-                supportsTools = true;
-              }
-              {
-                id = "batiai/qwen3.6-35b:iq4";
-                name = "Qwen 3.6 35B (IQ4)";
-                contextWindow = 131072; # Qwen 3.6 native context window size
-                supportsImages = false;
-                supportsTools = true; # Qwen 3.6 has native high-tier tool-calling capabilities
-              }
-            ];
-          };
-        };
+      providers = lib.mapAttrs (_: e: {
+        inherit (e) baseUrl apiKey;
+        api = "openai-completions";
+        models = lib.mapAttrsToList (id: m: {
+          inherit id;
+          inherit (m) name contextWindow;
+          supportsTools = m.tools;
+          supportsImages = m.images;
+        }) e.models;
+      }) config.myModules.ai.endpoints;
     };
 
   };
