@@ -1,22 +1,25 @@
+{ lib, ... }:
 {
-  pkgs,
-  ...
-}:
-{
-  imports = [
-    ../../modules/shared.nix
-  ];
   home.stateVersion = "25.05";
 
-  # Packages only on this host
-  home.packages = with pkgs; [
-  ];
-  myModules.apps = {
-    yazi.portal.enable = true; # NixOS yazi portal picker
-    flatpak.enable = true;
-    t3code.enable = true;
-    pi.enable = true; # Configured to use gemma4
+  myModules.bundles = {
+    cli.enable = true;
+    desktop.enable = true;
+    dev.enable = true;
+    personal.enable = true; # gpg/pass, syncthing, AI clients, anydesk
   };
+
+  myModules.apps =
+    lib.genAttrs
+      [
+        "yazi-portal" # NixOS yazi portal picker
+        "flatpak"
+        "t3code"
+        "pi" # gemma4
+      ]
+      (_: {
+        enable = true;
+      });
 
   home.sessionVariables = {
     # Specify NVIDIA as the backend for various libraries
@@ -38,9 +41,8 @@
     '';
     zsh.shellAliases = {
       # Rebuild the system flake
-      ns = "cd ~/.config/home-manager && git add -A && sudo nixos-rebuild switch --flake .#cc3 && cd -";
+      ns = "cd ~/.config/home-manager && ./static/scripts/readme-tree-update.sh && git add -A && sudo nixos-rebuild switch --flake .#cc3 && cd -";
       nd = "zellij delete-session 'cc3' --force";
     };
   };
-
 }

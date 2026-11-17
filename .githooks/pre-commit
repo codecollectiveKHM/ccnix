@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Enable once per clone: git config core.hooksPath .githooks
+# Blocks commits containing secrets or unformatted Nix.
+set -euo pipefail
+if ! command -v gitleaks >/dev/null || ! command -v nixfmt >/dev/null; then
+  # outside the devShell: same tools from the flake-locked nixpkgs
+  exec nix shell --inputs-from "$(git rev-parse --show-toplevel)" nixpkgs#gitleaks nixpkgs#nixfmt -c "$0" "$@"
+fi
+gitleaks git --staged --no-banner --redact
+mapfile -t nix < <(git diff --cached --name-only --diff-filter=ACM -- '*.nix')
+[ ${#nix[@]} -eq 0 ] || nixfmt --check "${nix[@]}"

@@ -1,104 +1,89 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+# cc1 — lab workstation: ComfyUI, JupyterHub, RAVE
+{ pkgs, ... }:
 {
   imports = [
-    # Eventually change to optin structure for parity with apps
-    ../../modules/profiles/admin.nix
-    ../../modules/system/audio-config.nix
-    ../../modules/system/core-config.nix
-    ../../modules/system/gui-config.nix
-    ../../modules/system/ndi.nix
-    ../../modules/system/ollama.nix
-    ../../modules/system/opencode.nix
-    ../../modules/system/comfyui.nix
-    ../../modules/system/rave.nix
-    ../../modules/system/jupyterhub.nix
+    ./cc1-hardware.nix
+    ./cc1-disko.nix
   ];
-
-  networking.hostName = "cc1";
   system.stateVersion = "26.05";
 
-  # ── GPU & Hardware ──────────────────────────────────────────────────
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true; # Modesetting is required for Wayland and Hyprland
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    # Use the NVidia open source kernel module (Recommended for RTX 20-series+) not noveau driver
-    open = true;
-    nvidiaSettings = true; # Enable the Nvidia settings menu, via `nvidia-settings`.
-    package = config.boot.kernelPackages.nvidiaPackages.stable; # (stable, beta, production, etc.)
-  };
-  # Rave config
-  myModules.system.rave = {
-    enable = true;
-    torchSpec = ">=2.7";
-    torchBackend = "cu128";
+  myModules.roles.workstation.enable = true; # desktop+plasma, audio, kanata, ndi
+  myModules.system = {
+    nvidia.enable = true;
+    ollama.enable = true;
+    opencode.enable = true;
+    comfyui = {
+      enable = true;
+      tailscaleServe = true;
+    };
+    jupyterhub.enable = true;
+    rave = {
+      enable = true;
+      torchSpec = ">=2.7";
+      torchBackend = "cu128";
+    };
+    alle = {
+      enable = true;
+      shell = pkgs.zsh;
+    };
   };
 
-  # ── Alle user ──────────────────────────────────────────────────
-  users.users.alle = {
-    isNormalUser = true;
-    description = "alle";
-    hashedPasswordFile = "/etc/alle.pass";
-    shell = pkgs.zsh;
-    # shell = pkgs.bash;
-    home = "/home/alle";
-    createHome = true;
-    extraGroups = [
-      "networkmanager"
-      "video"
-      "audio"
-    ];
-  };
+  # alle: full CLI + desktop package set, only these app configs
   home-manager.users.alle =
-    { inputs, ... }:
+    { lib, ... }:
     {
-      imports = [
-        inputs.ags.homeManagerModules.default
-        ../../modules/apps/labguide.nix
-        ../../modules/misc/labguide-list.nix
-
-        ../../modules/apps/fzf.nix
-        ../../modules/apps/git.nix
-        ../../modules/apps/kitty.nix
-        ../../modules/apps/lazygit.nix
-        ../../modules/apps/pi.nix
-        ../../modules/apps/ssh.nix
-        ../../modules/apps/starship.nix
-        ../../modules/apps/t3code.nix
-        ../../modules/apps/zsh.nix
-
-        ../../modules/bundles/dotfiles.nix
-        ../../modules/bundles/nix-packages.nix
-        ../../modules/bundles/packages.nix
-      ];
       home.stateVersion = "25.05";
       programs.ags.enable = true;
-      # home.packages = [ pkgs.kitty ]; # kitty.nix ships config only; binary lives in nix-packages bundle alle won't get
-      myModules.apps = {
-        fzf.enable = true;
-        git.enable = true;
-        kitty.enable = true;
-        lazygit.enable = true;
-        pi.enable = true;
-        ssh.enable = true;
-        starship.enable = true;
-        t3code.enable = true;
-        zsh.enable = true;
+      myModules.bundles = {
+        cli.enable = true;
+        desktop.enable = true;
+        dev.enable = true;
+        personal.enable = true;
       };
+      myModules.apps = lib.mkMerge [
+        (lib.genAttrs [ "labguide" "pi" "t3code" ] (_: {
+          enable = true;
+        }))
+        # Bundle apps alle opts out of (keeps fzf git kitty lazygit ssh starship zsh)
+        (lib.genAttrs
+          [
+            "direnv"
+            "eza"
+            "fastfetch"
+            "yazi"
+            "zellij"
+            "ags"
+            "dunst"
+            "firefox"
+            "hyprland"
+            "kanata"
+            "mpv"
+            "plasma"
+            "polkit"
+            "rofi"
+            "swayimg"
+            "vlc"
+            "waybar"
+            "wlr-which-key"
+            "zathura"
+            "gh-dash"
+            "miniconda"
+            "quarto"
+            "rust"
+            "gpg"
+            "syncthing"
+          ]
+          (_: {
+            enable = false;
+          })
+        )
+      ];
     };
 
-  # ── nix-ld ────────────────────────────────────────────────────────
-  programs.zsh.enable = true;
+  # Run unpatched binaries (CUDA/audio wheels)
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
-      stdenv.cc.cc.lib # Provides libstdc++.so.6
-      zlib
       cudaPackages.cudatoolkit
       cudaPackages.cudnn
       ffmpeg
@@ -106,29 +91,11 @@
     ];
   };
 
-  # ── Services & programs ────────────────────────────────────────────────────────
-  # For Bottles
-  services.flatpak.enable = true;
+  services.flatpak.enable = true; # Bottles (HM nix-flatpak)
   fonts.packages = with pkgs; [
     corefonts
-    vista-fonts # Optional: Adds Calibri, Consolas, etc.
+    vista-fonts # Calibri, Consolas, ...
   ];
-
-  systemd.services.comfyui-serve = {
-    after = [
-      "tailscaled.service"
-      "comfyui.service"
-    ];
-    requires = [ "comfyui.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      TimeoutStartSec = 30;
-      ExecStart = "${pkgs.tailscale}/bin/tailscale serve --bg --https=443 http://127.0.0.1:8188";
-      ExecStop = "${pkgs.tailscale}/bin/tailscale serve --https=443 off";
-    };
-  };
 
   environment.systemPackages = with pkgs; [
     ollama

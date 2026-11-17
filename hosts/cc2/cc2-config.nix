@@ -1,25 +1,32 @@
+# cc2 — lab workstation on a shared NVMe (old cc2 LUKS + Ubuntu): own ESP, GRUB menu
+{ lib, pkgs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-{
-  imports = [
-    # Eventually change to optin structure for parity with apps
-    ../../modules/profiles/admin.nix
-    ../../modules/system/audio-config.nix
-    ../../modules/system/core-config.nix
-    ../../modules/system/gui-config.nix
-    ../../modules/system/ndi.nix
-    ../../modules/system/ollama.nix
-    ../../modules/system/opencode.nix
-  ];
-
-  networking.hostName = "cc2";
+  imports = [ ./cc2-hardware.nix ];
   system.stateVersion = "26.05";
 
-  # Shared nvme (old cc2 LUKS + Ubuntu): own ESP, GRUB menu
+  myModules.roles.workstation.enable = true; # desktop+plasma, audio, kanata, ndi
+  myModules.system = {
+    nvidia.enable = true;
+    ollama.enable = true;
+    opencode.enable = true;
+    alle.enable = true;
+  };
+
+  home-manager.users.alle =
+    { pkgs, ... }:
+    {
+      home.stateVersion = "25.05";
+      programs.ags.enable = true;
+      myModules.apps = lib.genAttrs [ "labguide" "plasma" "yazi" ] (_: {
+        enable = true;
+      });
+      home.packages = with pkgs; [
+        figlet
+        fastfetch
+        kitty
+      ];
+    };
+
   boot.loader = {
     systemd-boot.enable = lib.mkForce false;
     timeout = 5;
@@ -45,63 +52,11 @@
     };
   };
 
-  # ── GPU & Hardware ──────────────────────────────────────────────────
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true; # Modesetting is required for Wayland and Hyprland
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-    # Use the NVidia open source kernel module (Recommended for RTX 20-series+) not noveau driver
-    open = true;
-    nvidiaSettings = true; # Enable the Nvidia settings menu, via `nvidia-settings`.
-    package = config.boot.kernelPackages.nvidiaPackages.stable; # (stable, beta, production, etc.)
-  };
-
-  # ── Alle user ──────────────────────────────────────────────────
-  users.users.alle = {
-    isNormalUser = true;
-    description = "alle";
-    hashedPasswordFile = "/etc/alle.pass";
-    shell = pkgs.bash; # or pkgs.zsh if you want
-    home = "/home/alle";
-    createHome = true;
-    extraGroups = [
-      "networkmanager"
-      "video"
-      "audio"
-    ];
-  };
-
-  home-manager.users.alle =
-    { pkgs, inputs, ... }:
-    {
-      imports = [
-        inputs.ags.homeManagerModules.default
-        ../../modules/apps/labguide.nix
-        ../../modules/misc/labguide-list.nix
-        ../../modules/apps/plasma.nix
-        ../../modules/apps/yazi.nix
-      ];
-      myModules.apps.plasma.enable = true;
-      myModules.apps.yazi.enable = true;
-      home.stateVersion = "25.05";
-      programs.ags.enable = true;
-      home.packages = with pkgs; [
-        figlet
-        fastfetch
-        kitty
-      ];
-    };
-
-  # ── Services & programs ────────────────────────────────────────────────────────
-  # For Bottles
-  services.flatpak.enable = true;
+  services.flatpak.enable = true; # Bottles (HM nix-flatpak)
   fonts.packages = with pkgs; [
     corefonts
-    vista-fonts # Optional: Adds Calibri, Consolas, etc.
+    vista-fonts # Calibri, Consolas, ...
   ];
 
-  environment.systemPackages = with pkgs; [
-    ollama
-  ];
+  environment.systemPackages = [ pkgs.ollama ];
 }
