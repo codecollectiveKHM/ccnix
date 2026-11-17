@@ -9,7 +9,10 @@
     nvidia.enable = true;
     ollama.enable = true;
     opencode.enable = true;
-    alle.enable = true;
+    alle = {
+      enable = true;
+      lanSsh = true;
+    };
   };
 
   home-manager.users.alle =
@@ -17,7 +20,7 @@
     {
       home.stateVersion = "25.05";
       programs.ags.enable = true;
-      myModules.apps = lib.genAttrs [ "labguide" "plasma" "yazi" ] (_: {
+      myModules.apps = lib.genAttrs [ "labguide" "pi" "plasma" "yazi" ] (_: {
         enable = true;
       });
       home.packages = with pkgs; [

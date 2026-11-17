@@ -25,6 +25,7 @@
     alle = {
       enable = true;
       shell = pkgs.zsh;
+      lanSsh = true;
     };
   };
 
