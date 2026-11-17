@@ -5,7 +5,6 @@ local function b(keys, action, opts) hl.bind(mod .. " + " .. keys, action, opts)
 
 -- Apps
 b("O",         exec("obsidian"))
-b("SHIFT + O", exec("~/.scripts/obsidian-mount.sh > /tmp/vault-debug.log 2>&1"))
 b("T",         exec("kitty -e vifm"))
 b("U",         exec("kitty -e nvim"))
 b("Y",         exec("kitty -e yazi"))

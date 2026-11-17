@@ -200,21 +200,6 @@ window#waybar.empty #window {
     margin: 5px 5px 5px 5px;
 }
 
-#custom-vault {
-    font-size: 16px;
-    padding: 0 10px;
-}
-
-/* Green when open/mounted */
-#custom-vault.unlocked {
-    color: #a6e3a1; 
-}
-
-/* Red when closed/secured */
-#custom-vault.locked {
-    color: #f38ba8; 
-}
-
 /* -----------------------------------------------------
  * Custom Exit
  * ----------------------------------------------------- */

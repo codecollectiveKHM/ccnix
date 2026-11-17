@@ -15,12 +15,6 @@ modal(
 	{ stay_focused = true, dim_around = true, pin = true }
 )
 modal(
-	"vault-auth-popup",
-	{ class = "^(vault-pass)$" },
-	"400 200",
-	{ stay_focused = true, dim_around = true, focus_on_activate = true }
-)
-modal(
 	"zotero-settings",
 	{ class = "^(Zotero)$", title = "^(Zotero Settings)$" },
 	"800 600",

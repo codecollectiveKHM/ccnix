@@ -9,13 +9,6 @@
 // ----------------------------------------------------- 
 //
 {
-  "custom/vault": {
-    "exec": "~/.scripts/obsidian-mount-status.sh",
-    "return-type": "json",
-    "interval": 5,
-    "on-click": "~/.scripts/obsidian-mount.sh",
-    "signal": 8
-  },
   // Workspaces
   "hyprland/workspaces": {
     "on-click": "activate",
