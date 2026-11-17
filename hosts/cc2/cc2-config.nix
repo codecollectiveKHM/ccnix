@@ -55,6 +55,9 @@
     };
   };
 
+  # Edge0 `ple-io=ram` mlocks a 51 GB table: let user units raise LimitMEMLOCK
+  systemd.services."user@".serviceConfig.LimitMEMLOCK = "infinity";
+
   services.flatpak.enable = true; # Bottles (HM nix-flatpak)
   fonts.packages = with pkgs; [
     corefonts
