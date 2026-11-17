@@ -13,6 +13,9 @@
           ControlPath = "~/.ssh/master-%C"; # %C safe variable
           ControlPersist = "10m";
         };
+        "github.com" = {
+          ControlMaster = "no";
+        };
         # "pc" = {
         #   HostName = "pc.REDACTED.ts.net";
         #   User = "admin";
