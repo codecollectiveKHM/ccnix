@@ -11,6 +11,8 @@
   myModules.system = {
     nvidia.enable = true;
     ollama.enable = true;
+    sharedSsh.enable = true; # dell (personal tailnet) → admin@cc1:2222
+    # edge0.enable = true; # once ~/src/edge0 + ~/models are in place (docs/EDGE0.md)
     comfyui = {
       enable = true;
       tailscaleServe = true;

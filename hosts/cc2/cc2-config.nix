@@ -1,5 +1,5 @@
 # cc2 — lab workstation on a shared NVMe (old cc2 LUKS + Ubuntu): own ESP, GRUB menu
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [ ./cc2-hardware.nix ];
   system.stateVersion = "26.05";
@@ -8,6 +8,7 @@
   myModules.system = {
     nvidia.enable = true;
     ollama.enable = true;
+    sharedSsh.enable = true; # dell (personal tailnet) → admin@cc2:2222
     alle = {
       enable = true;
       lanSsh = true;
@@ -63,14 +64,4 @@
   ];
 
   environment.systemPackages = [ pkgs.ollama ];
-
-  # dell (personal tailnet) reaches cc2 through a Tailscale node share; key-only, no root
-  users.users.${config.myModules.host.user}.openssh.authorizedKeys.keys = [
-    (import ../../lib/keys.nix).users.dell
-  ];
-  # Tailscale SSH (--ssh) grabs :22 on the tailnet IP; shared-in users get plain sshd here
-  services.openssh.ports = [
-    22
-    2222
-  ];
 }
