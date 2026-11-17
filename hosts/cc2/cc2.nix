@@ -43,7 +43,7 @@
   # Per host extra configurations
   programs = {
     zsh.envExtra = ''
-      export STARSHIP_HOST_ICON="*󰲠 "
+      export STARSHIP_HOST_ICON="*󰲢 "
     '';
     zsh.shellAliases = {
       # Rebuild the system flake
