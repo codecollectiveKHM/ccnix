@@ -37,6 +37,24 @@ in
       });
     '';
 
+    # `edge0 start|stop|status` for users who can't read the journal
+    environment.systemPackages = [
+      (pkgs.writeShellScriptBin "edge0" ''
+        case "''${1:-status}" in
+          start)
+            systemctl start edge0 || exit 1
+            echo "loading (1-2 min)..."
+            until ${pkgs.curl}/bin/curl -so /dev/null localhost:${toString port}; do
+              systemctl -q is-active edge0 || { echo "edge0 failed; admin: journalctl -u edge0"; exit 1; }
+              sleep 3
+            done
+            echo "ready: pi → /model → Edge0 145B" ;;
+          stop) systemctl stop edge0 ;;
+          *) systemctl is-active edge0 ;;
+        esac
+      '')
+    ];
+
     home-manager.sharedModules = [
       {
         myModules.ai.endpoints.edge0 = {
