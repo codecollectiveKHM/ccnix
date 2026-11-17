@@ -26,6 +26,8 @@ in
       Match User alle Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         PasswordAuthentication yes
     '';
+    # nixpkgs drops pam_unix from sshd's auth stack when PasswordAuthentication is globally off
+    security.pam.services.sshd.unixAuth = lib.mkIf cfg.lanSsh (lib.mkForce true);
 
     users.users.alle = {
       isNormalUser = true;
