@@ -68,4 +68,9 @@
   users.users.${config.myModules.host.user}.openssh.authorizedKeys.keys = [
     (import ../../lib/keys.nix).users.dell
   ];
+  # Tailscale SSH (--ssh) grabs :22 on the tailnet IP; shared-in users get plain sshd here
+  services.openssh.ports = [
+    22
+    2222
+  ];
 }
