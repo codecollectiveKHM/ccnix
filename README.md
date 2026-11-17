@@ -4,10 +4,11 @@ Code Collective lab NixOS fleet. Layout: [docs/TREE.md](docs/TREE.md)
 
 | Host | Notes |
 |---|---|
-| `cc1` | 5090, Ryzen 9 9950X, 186GB RAM (NixOS/Ubuntu/Windows11) |
-| `cc2` | 5090, Ryzen 9 9950X, 186GB RAM (NixOS/Ubuntu/Windows11) |
-| `cc3` | 3070, i7-7700K, 32GB RAM (NixOS/Ubuntu/Windows10) |
-| `cc4` | 3090Ti, i7-7700K, 32GB RAM (NixOS/Ubuntu) |
+| `cc1` | 5090, Ryzen 9 9950X, 186GB RAM, (NixOS/Ubuntu/Windows11) |
+| `cc2` | 5090, Ryzen 9 9950X, 186GB RAM, (NixOS/Ubuntu/Windows11) |
+| `cc3` | 3070, i7-7700K, 32GB RAM, (NixOS/Ubuntu/Windows10) |
+| `cc4` | 3090Ti, i7-7700K, 32GB RAM, (NixOS/Ubuntu) |
+| `cc5` | 2x4090, ?, ? (Ubuntu) |
 
 ## Daily use
 
