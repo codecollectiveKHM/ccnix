@@ -25,15 +25,6 @@
         enable = true;
       });
 
-  # Edge0 server: NixOS myModules.system.edge0 (systemctl --user start edge0)
-  myModules.ai.endpoints.edge0 = {
-    baseUrl = "http://localhost:8000/v1";
-    models.edge0_145b = {
-      name = "Edge0 145B";
-      contextWindow = 131072;
-    };
-  };
-
   home.sessionVariables = {
     # Specify NVIDIA as the backend for various libraries
     LIBVA_DRIVER_NAME = "nvidia";

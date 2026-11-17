@@ -54,7 +54,7 @@
     };
   };
 
-  myModules.system.edge0.enable = true; # systemctl --user start edge0
+  myModules.system.edge0.enable = true; # systemctl start edge0 (any user)
 
   services.flatpak.enable = true; # Bottles (HM nix-flatpak)
   fonts.packages = with pkgs; [
