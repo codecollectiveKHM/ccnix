@@ -7,7 +7,7 @@ NixOS + Home Manager flake for the Code Collective lab. Layout: [docs/TREE.md](d
 | `cc1` | ComfyUI (tailnet HTTPS), JupyterHub, RAVE, `alle` with full CLI/desktop packages |
 | `cc2` | dual-boot GRUB (Ubuntu, Windows), whisper, `alle` with labguide |
 | `cc3` | `alle` (no HM) |
-| `cc4` | RAVE, early KMS, `alle` (no HM) |
+| `cc4` | RAVE, early KMS, `alle` with pi |
 | `installer` | unattended ISO (`hosts/installer/installer.nix`, target set inside) |
 
 All hosts: user `admin`, `x86_64-linux`, NVIDIA, role `workstation`, colmena tags `workstation` `linux`.
@@ -71,3 +71,5 @@ myModules.apps.zotero.enable = true;
 **Hyprland config.** Lua (`static/hypr/nixos/*.lua`, entry `hypr-choose/sources-nixos.lua`). `checks.hyprland-config` runs `Hyprland --verify-config` on cc1's generated `hyprland.lua`; an assertion requires HM `configType = "lua"`.
 
 **Refresh the tree.** `static/scripts/readme-tree-update.sh` writes `docs/TREE.md`.
+
+**LAN AI access.** On cc1, cc2, cc4 (`myModules.system.alle.lanSsh`), anyone on the lab wifi can `ssh alle@cc1.local` with the alle password (LAN only; tailnet stays key-only), then run `pi` against that host's ollama.

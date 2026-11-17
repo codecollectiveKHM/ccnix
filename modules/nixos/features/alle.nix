@@ -17,9 +17,16 @@ in
       default = pkgs.bash;
       description = "Login shell.";
     };
+    lanSsh = lib.mkEnableOption "password SSH for alle from private (LAN) addresses";
   };
 
   config = lib.mkIf cfg.enable {
+    # Base SSH is key-only; tailnet (100.64/10) and public addresses stay key-only.
+    services.openssh.extraConfig = lib.mkIf cfg.lanSsh ''
+      Match User alle Address 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+        PasswordAuthentication yes
+    '';
+
     users.users.alle = {
       isNormalUser = true;
       description = "alle";
