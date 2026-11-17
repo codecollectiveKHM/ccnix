@@ -18,6 +18,7 @@
         "pureref"
         "t3code"
         "pi" # gemma4
+        "edge0" # pi + opencode providers for localhost:8000
         "whisper" # whisper.cpp (CUDA) + transcribe/dictate
       ]
       (_: {
