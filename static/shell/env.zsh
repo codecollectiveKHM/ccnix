@@ -7,11 +7,9 @@ export STARSHIP_CONFIG=~/.config/starship/starship.toml
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-mkdir -p "$(dirname "$HISTFILE")"
-# XDG & Zsh Paths
+# XDG & Zsh Paths (HISTFILE: modules/home/apps/zsh.nix)
 export ZSH="$HOME/.config/oh-my-zsh"
 export SVN_CONFIG_DIR="$HOME/.config/subversion"
-export HISTFILE="$HOME/.local/state/zsh-history/.zsh_history"
 export XDG_CONFIG_HOME="$HOME/.config"
 export PYTHONHISTORY="$HOME/.local/state/python/"
 
