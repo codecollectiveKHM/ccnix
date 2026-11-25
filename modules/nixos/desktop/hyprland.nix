@@ -53,6 +53,7 @@ in
           xwayland.enable = true;
         };
         programs.dconf.enable = true; # the GTK portal cannot start without it
+        security.pam.services.hyprlock = { }; # else hyprlock falls back to /etc/pam.d/su
 
         xdg.portal = {
           enable = true;

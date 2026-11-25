@@ -22,7 +22,3 @@ alias wifi='nm-applet'
 
 # Repomix make context for nix hm repo
 alias rn="cd ~/.config/home-manager/ && nix run nixpkgs#repomix"
-
-# Hypr wake remote
-alias hypr-wake="env HYPRLAND_INSTANCE_SIGNATURE=$(basename $(dirname $(find /run/user/$(id -u)/hypr -maxdepth 2 -name ".socket.sock" -print -quit))) hyprctl dispatch \"hl.dsp.dpms({ action = 'on' })\""
-alias hypr-sleep="env HYPRLAND_INSTANCE_SIGNATURE=$(basename $(dirname $(find /run/user/$(id -u)/hypr -maxdepth 2 -name ".socket.sock" -print -quit))) hyprctl dispatch \"hl.dsp.dpms({ action = 'off' })\""

@@ -165,3 +165,14 @@ function fetch-obsidianconfig()() {
     echo "--- Success ---"
     echo "Files are now located in: $LOCAL_DEST"
 }
+
+
+# Hyprland DPMS from SSH/TTY: resolve the running instance when called, not at shell start
+_hypr_sig() {
+  local sock
+  sock=$(find "/run/user/$UID/hypr" -maxdepth 2 -name .socket.sock -print -quit 2>/dev/null)
+  [[ -n $sock ]] || { echo "Hyprland is not running" >&2; return 1; }
+  basename "$(dirname "$sock")"
+}
+hypr-wake() { local sig; sig=$(_hypr_sig) && HYPRLAND_INSTANCE_SIGNATURE=$sig ~/.scripts/hypr-dpms.sh on; }
+hypr-sleep() { local sig; sig=$(_hypr_sig) && HYPRLAND_INSTANCE_SIGNATURE=$sig ~/.scripts/hypr-dpms.sh off; }
