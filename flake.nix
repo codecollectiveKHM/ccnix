@@ -3,7 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nur.url = "github:nix-community/NUR";
+    # follows: reuse this nixpkgs instead of each input's own pin (one nixpkgs to fetch/evaluate)
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -16,7 +20,10 @@
     };
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest"; # flatpacks
-    agenix.url = "github:ryantm/agenix"; # agenix secrets colmena
+    agenix = {
+      url = "github:ryantm/agenix"; # agenix secrets colmena
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     colmena = {
       url = "github:zhaofengli/colmena"; # CLI + lib.makeHive from one source
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,9 +32,16 @@
 
     # Particular sources
     ags.url = "github:Aylur/ags/v1";
-    nix-claude-code.url = "github:ryoppippi/nix-claude-code";
-    opencode.url = "github:anomalyco/opencode";
-    zjstatus.url = "github:dj95/zjstatus";
+    # Claude's version comes from this repo's versions/*.json, not from nixpkgs
+    nix-claude-code = {
+      url = "github:ryoppippi/nix-claude-code";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    zjstatus = {
+      url = "github:dj95/zjstatus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # No follows: its own nixpkgs pin is what comfyui.cachix.org has prebuilt (CUDA PyTorch)
     comfyui-nix.url = "github:utensils/comfyui-nix";
   };
 
