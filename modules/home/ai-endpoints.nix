@@ -1,6 +1,6 @@
 # OpenAI-compatible model endpoints: data only. Clients (apps/pi.nix)
 # render their own config from it. Hosts add endpoints, e.g. hosts/cc2/cc2.nix (edge0).
-{ lib, ... }:
+{ lib, osConfig, ... }:
 let
   inherit (lib) mkOption types;
   model = types.submodule {
@@ -47,6 +47,16 @@ in
         name = "Qwen 3.6 35B (IQ4)";
         contextWindow = 131072;
       };
+    };
+  };
+
+  # cc2's Edge0 on hosts that don't run it, through `ssh -fN edge0-cc2` (apps/ssh.nix).
+  # Local 18000, not 8000: cc1's JupyterHub holds 127.0.0.1:8000.
+  config.myModules.ai.endpoints.edge0-cc2 = lib.mkIf (!osConfig.myModules.system.edge0.enable) {
+    baseUrl = "http://localhost:18000/v1";
+    models.edge0_145b = {
+      name = "Edge0 145B (cc2)";
+      contextWindow = 131072;
     };
   };
 }

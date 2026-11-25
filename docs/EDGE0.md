@@ -26,24 +26,17 @@ For an agent working on repos that live on cc1/cc4/your laptop:
 
 ```sh
 ssh alle@cc2.local edge0 start                  # or start it as in 1.
-ssh -fN -L 8000:localhost:8000 alle@cc2.local   # tunnel: local :8000 → cc2
-curl -s localhost:8000/v1/models                # check
+ssh -fN edge0-cc2                               # tunnel: local :18000 → cc2:8000 (apps/ssh.nix)
+curl -s localhost:18000/v1/models               # check: lists edge0_145b
 pi                                              # /model → Edge0 145B (cc2)
-pkill -f 'L 8000:localhost:8000'                # close the tunnel
+pkill -f 'ssh -fN edge0-cc2'                    # close the tunnel
 ```
 
-The client machine needs the endpoint once, in its HM config (`hosts/<h>/<h>.nix`, or the
-`home-manager.users.alle` block for the lab account):
+Every ccnix host without edge0 already has the `edge0-cc2` endpoint (`modules/home/ai-endpoints.nix`).
+Port 18000, not 8000: cc1's JupyterHub holds `127.0.0.1:8000`.
 
-```nix
-myModules.ai.endpoints.edge0 = {
-  baseUrl = "http://localhost:8000/v1";
-  models.edge0_145b = { name = "Edge0 145B (cc2)"; contextWindow = 131072; };
-};
-```
-
-Not on NixOS: point any OpenAI-compatible client at `http://localhost:8000/v1`,
-model `edge0_145b`, any API key.
+Not on NixOS: `ssh -fN -L 18000:localhost:8000 alle@cc2.local`, then point any
+OpenAI-compatible client at `http://localhost:18000/v1`, model `edge0_145b`, any API key.
 
 ## 3. Admin (cc2)
 
