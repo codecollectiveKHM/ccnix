@@ -1352,6 +1352,11 @@
         "desc": "Move window",
         "icon": "",
         "type": "action"
+      },
+      "M": {
+        "desc": "Go back to SDDM",
+        "icon": "",
+        "type": "action"
       }
     },
     "default": {
