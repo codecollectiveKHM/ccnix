@@ -2,11 +2,16 @@
 {
   config,
   lib,
+  osConfig,
   pkgs,
   ...
 }:
 {
-  options.myModules.bundles.desktop.enable = lib.mkEnableOption "Hyprland desktop bundle";
+  options.myModules.bundles.desktop.enable = lib.mkEnableOption "Hyprland desktop bundle" // {
+    # one switch: the NixOS side (desktop), for the primary user; lab users opt in
+    default =
+      osConfig.myModules.system.desktop.enable && config.home.username == config.myModules.host.user;
+  };
 
   config = lib.mkIf config.myModules.bundles.desktop.enable {
     myModules.apps =
@@ -16,11 +21,8 @@
           "dunst"
           "firefox"
           "hyprland"
-          "kanata"
           "kitty"
           "mpv"
-          "plasma"
-          "polkit"
           "rofi"
           "swayimg"
           "vlc"

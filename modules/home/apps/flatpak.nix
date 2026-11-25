@@ -1,11 +1,15 @@
 {
   config,
   lib,
+  osConfig,
   ...
 }:
 
 {
-  options.myModules.apps.flatpak.enable = lib.mkEnableOption "flatpak apps";
+  options.myModules.apps.flatpak.enable = lib.mkEnableOption "flatpak apps" // {
+    # one switch: the NixOS side (services.flatpak), for the primary user; lab users opt in
+    default = osConfig.services.flatpak.enable && config.home.username == config.myModules.host.user;
+  };
 
   config = lib.mkIf config.myModules.apps.flatpak.enable {
 

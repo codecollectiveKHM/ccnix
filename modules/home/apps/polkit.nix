@@ -1,12 +1,15 @@
 {
   config,
   lib,
+  osConfig,
   pkgs,
   ...
 }:
 
 {
-  options.myModules.apps.polkit.enable = lib.mkEnableOption "polkit authentication agent";
+  options.myModules.apps.polkit.enable = lib.mkEnableOption "polkit authentication agent" // {
+    default = osConfig.myModules.system.desktop.enable; # one switch: the NixOS side (Hyprland desktop)
+  };
 
   config = lib.mkIf config.myModules.apps.polkit.enable {
 

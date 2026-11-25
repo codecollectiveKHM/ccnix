@@ -4,7 +4,6 @@
 
   myModules.bundles = {
     cli.enable = true;
-    desktop.enable = true;
     dev.enable = true;
     personal.enable = true; # gpg/pass, syncthing, AI clients, anydesk
   };
@@ -13,7 +12,6 @@
     lib.genAttrs
       [
         "yazi-portal" # NixOS yazi portal picker
-        "flatpak"
         "labguide" # desktop widget (list: modules/home/apps/labguide.nix)
         "pureref"
         "t3code"

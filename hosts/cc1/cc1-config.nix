@@ -46,7 +46,7 @@
         (lib.genAttrs [ "labguide" "opencode" "pi" "t3code" ] (_: {
           enable = true;
         }))
-        # Bundle apps alle opts out of (keeps fzf git kitty lazygit ssh starship zsh)
+        # Apps alle opts out of: bundle and NixOS-side defaults (keeps fzf git kitty lazygit ssh starship zsh)
         (lib.genAttrs
           [
             "direnv"
@@ -82,16 +82,13 @@
       ];
     };
 
-  # Run unpatched binaries (CUDA/audio wheels)
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [
-      cudaPackages.cudatoolkit
-      cudaPackages.cudnn
-      ffmpeg
-      libsndfile
-    ];
-  };
+  # Extra libraries for unpatched binaries (CUDA/audio wheels); nix-ld itself: roles/workstation.nix
+  programs.nix-ld.libraries = with pkgs; [
+    cudaPackages.cudatoolkit
+    cudaPackages.cudnn
+    ffmpeg
+    libsndfile
+  ];
 
   services.flatpak.enable = true; # Bottles (HM nix-flatpak)
   fonts.packages = with pkgs; [

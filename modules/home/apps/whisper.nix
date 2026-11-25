@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  osConfig,
   pkgs,
   ...
 }:
 let
-  whisper = pkgs.whisper-cpp.override { cudaSupport = true; };
+  whisper = pkgs.whisper-cpp.override { cudaSupport = osConfig.myModules.system.nvidia.enable; };
   models = builtins.readFile ../../../static/whisper/models.sh;
   mkScript =
     name: runtimeInputs:
@@ -21,7 +22,7 @@ let
 in
 {
   options.myModules.apps.whisper.enable =
-    lib.mkEnableOption "whisper.cpp (CUDA) + transcribe/dictate";
+    lib.mkEnableOption "whisper.cpp (CUDA with the NVIDIA driver) + transcribe/dictate";
 
   config = lib.mkIf config.myModules.apps.whisper.enable {
     home.packages = [
