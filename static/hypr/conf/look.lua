@@ -1,5 +1,5 @@
 -- Ported from general/decoration/animations/layouts/misc.conf.
--- hyprctl.sh + hyprctl.json overrides are merged in as final values (marked "json").
+-- The old hyprctl.sh/hyprctl.json overrides are merged in as final values (marked "json").
 
 hl.config({
     general = {
