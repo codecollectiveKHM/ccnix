@@ -10,7 +10,10 @@
   myModules.roles.workstation.enable = true; # desktop+plasma, audio, kanata, ndi
   myModules.system = {
     nvidia.enable = true;
-    alle.enable = true; # no Home Manager config
+    alle = {
+      enable = true; # no Home Manager config
+      lanSsh = true;
+    };
   };
 
   services.flatpak.enable = true; # Bottles (HM nix-flatpak)

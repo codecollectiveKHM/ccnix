@@ -1,26 +1,13 @@
 {
   networking = {
     networkmanager.enable = true;
-    firewall = {
-      trustedInterfaces = [ "tailscale0" ];
-      interfaces."tailscale0".allowedTCPPorts = [ 8080 ];
-      allowedUDPPorts = [
-        41641 # tailscale
-        5353 # NDI Avahi
-      ];
-      allowedTCPPortRanges = [
-        {
-          from = 5960;
-          to = 5970;
-        }
-      ]; # NDI Avahi
-      checkReversePath = "loose";
-    };
+    firewall.trustedInterfaces = [ "tailscale0" ];
   };
 
-  # Key-only SSH, reachable over the tailnet
+  # Key-only SSH over the tailnet (tailscale0 is trusted); :22 on the LAN comes from alle.lanSsh (all hosts)
   services.openssh = {
     enable = true;
+    openFirewall = false;
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
@@ -30,7 +17,8 @@
   programs.ssh.startAgent = true;
   services.tailscale = {
     enable = true;
-    useRoutingFeatures = "client";
+    openFirewall = true; # 41641/udp
+    useRoutingFeatures = "client"; # also sets checkReversePath = "loose"
     extraSetFlags = [ "--ssh" ];
   };
 }

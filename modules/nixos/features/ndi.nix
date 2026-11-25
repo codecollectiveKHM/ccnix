@@ -1,4 +1,4 @@
-# NDI over the LAN: OBS + DistroAV, mDNS discovery (ports are opened in base/networking.nix)
+# NDI over the LAN: OBS + DistroAV, mDNS discovery (avahi opens 5353/udp)
 {
   config,
   lib,
@@ -18,6 +18,13 @@
         publish-addresses = true;
       };
     };
+
+    networking.firewall.allowedTCPPortRanges = [
+      {
+        from = 5960;
+        to = 5970;
+      }
+    ];
 
     environment.systemPackages = [
       (pkgs.wrapOBS {

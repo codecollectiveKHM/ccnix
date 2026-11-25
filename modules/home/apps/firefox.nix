@@ -19,7 +19,6 @@
           "extensions.autoDisableScopes" = 0;
           "browser.startup.homepage" = "about:newtab";
           "browser.tabs.warnOnClose" = false;
-          "extensions.webextensions.restrictedDomains" = "";
           "widget.use-xdg-desktop-portal.file-picker" = 1; # yazi portal picker
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true; # enable custom stylesheets
           "browser.tabs.inTitlebar" = 1; # firefox must use it's own titlebar to be targeteable by css

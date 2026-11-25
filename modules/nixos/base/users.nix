@@ -15,8 +15,7 @@ in
     extraGroups = [
       "networkmanager"
       "wheel"
-      "uinput"
-    ];
+    ]; # no "uinput": kanata's service has its own access (SupplementaryGroups)
     packages = [ pkgs.kdePackages.kate ];
     openssh.authorizedKeys.keys = keys.admins;
   };
