@@ -43,7 +43,7 @@
         personal.enable = true;
       };
       myModules.apps = lib.mkMerge [
-        (lib.genAttrs [ "labguide" "opencode" "pi" "t3code" ] (_: {
+        (lib.genAttrs [ "labguide" "pi" "t3code" ] (_: {
           enable = true;
         }))
         # Apps alle opts out of: bundle and NixOS-side defaults (keeps fzf git kitty lazygit ssh starship zsh)

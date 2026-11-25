@@ -5,7 +5,7 @@ OpenAI/Anthropic-compatible API on `127.0.0.1:8000`, ~150 tok/s decode, ~4000 to
 It is **on demand** and **shared**: one server for everyone, and **ollama on cc2 is stopped
 while it runs** (it comes back when edge0 stops).
 
-Config: `modules/nixos/features/edge0.nix` (server) · `myModules.ai.endpoints` (clients: pi, opencode).
+Config: `modules/nixos/features/edge0.nix` (server) · `myModules.ai.endpoints` (client: pi).
 
 ## 1. Use it on cc2 (any LAN machine or phone)
 
@@ -13,7 +13,7 @@ Config: `modules/nixos/features/edge0.nix` (server) · `myModules.ai.endpoints` 
 ssh alle@cc2.local          # password: alle · phone/Termux: ssh alle@10.10.2.2
 edge0 status                # active = someone already started it
 edge0 start                 # loads in 1-2 min, prints "ready"
-pi                          # then /model → Edge0 145B   (or: opencode, /models)
+pi                          # then /model → Edge0 145B
 edge0 stop                  # when done, only if nobody else is using it
 ```
 

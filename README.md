@@ -45,4 +45,4 @@ static/                 dotfiles linked by the modules
 ## Updates
 
 `update-flake-lock` opens a `flake.lock` PR every Monday and runs `check` on it; merge when green, then `colmena apply --on @workstation`.
-Pinned by hand (`npm view <pkg> version`): pi 1.6.0 in `pkgs/pi-coding-agent.nix`, opencode 1.19.6 in `modules/home/apps/opencode.nix`.
+Pinned by hand: pi 1.6.0 in `pkgs/pi-coding-agent.nix` (`npm view @earendil-works/pi-coding-agent version`).

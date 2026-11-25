@@ -1,7 +1,7 @@
 # Edge0-145B (edge0-strata on CUDA) as an on-demand system service, run as the primary user
 # (the build lives in their home: ~/src/edge0, dev shell flake ~/src/edge0-env, not in this repo).
 # Any local user (admin, alle) may start/stop it: systemctl start edge0 · journalctl -u edge0 -f
-# Every HM user on this host gets myModules.ai.endpoints.edge0, so pi/opencode list it.
+# Every HM user on this host gets myModules.ai.endpoints.edge0, so pi lists it.
 {
   config,
   lib,

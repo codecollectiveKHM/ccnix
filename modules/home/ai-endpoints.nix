@@ -1,4 +1,4 @@
-# OpenAI-compatible model endpoints: data only. Clients (apps/pi.nix, apps/opencode.nix)
+# OpenAI-compatible model endpoints: data only. Clients (apps/pi.nix)
 # render their own config from it. Hosts add endpoints, e.g. hosts/cc2/cc2.nix (edge0).
 { lib, ... }:
 let

@@ -16,7 +16,6 @@
         "pureref"
         "t3code"
         "pi" # gemma4
-        "opencode"
         "whisper" # whisper.cpp (CUDA) + transcribe/dictate
       ]
       (_: {
