@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -9,25 +10,22 @@
 
   config = lib.mkIf config.myModules.apps.polkit.enable {
 
+    # Hyprland only: hyprland-session.target (HM) never starts under Plasma, which has its own agent
     systemd.user.services.polkit-gnome-authentication-agent-1 = {
       Unit = {
         Description = "Polkit GNOME Authentication Agent";
-        After = [ "graphical-session.target" ];
-        Wants = [ "graphical-session.target" ];
-        # CRITICAL: Only start this service if Hyprland is the active desktop.
-        # This prevents collisions when you log into your fallback Plasma session.
-        ConditionEnvironment = "XDG_CURRENT_DESKTOP=hyprland";
+        PartOf = [ "hyprland-session.target" ];
+        After = [ "hyprland-session.target" ];
       };
       Service = {
         Type = "simple";
-        # Execute the globally available system binary
-        ExecStart = "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = [ "hyprland-session.target" ];
       };
     };
   };
