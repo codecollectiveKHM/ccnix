@@ -14,7 +14,7 @@
         if [ -n "''${DEEPSEEK_API_KEY:-}" ]; then
           export OPENCODE_DEEPSEEK_API_KEY="$DEEPSEEK_API_KEY"
         fi
-        exec npx opencode-ai@latest "$@"
+        exec npx opencode-ai@1.19.6 "$@" # pinned: bump by hand (npm view opencode-ai version)
       '')
     ];
 

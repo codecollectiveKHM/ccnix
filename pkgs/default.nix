@@ -4,6 +4,7 @@
 # `pureref`/`t3code` packages).
 { pkgs }:
 {
+  pi-coding-agent = pkgs.callPackage ./pi-coding-agent.nix { };
   pureref-bin = pkgs.callPackage ./pureref-bin.nix { };
   t3code-bin = pkgs.callPackage ./t3code-bin.nix { };
 }
