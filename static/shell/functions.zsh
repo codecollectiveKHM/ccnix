@@ -13,7 +13,7 @@ function adf() {
     local exclude_file="$HOME/.config/git/exclude"
 
     # Store the command as an array to handle arguments correctly
-    local dot_cmd=(/usr/bin/git --git-dir="$HOME/.dotfiles-linux/" --work-tree="$HOME")
+    local dot_cmd=(git --git-dir="$HOME/.dotfiles-linux/" --work-tree="$HOME")
     
     # 1. Run the git add using the array expansion
     # The "${dot_cmd[@]}" ensures flags are passed individually

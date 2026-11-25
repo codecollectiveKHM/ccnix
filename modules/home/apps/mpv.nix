@@ -37,7 +37,7 @@
 
       # Weekly cookie refresh from firefox
       systemd.user.services.yt-dlp-cookie-refresh = {
-        Unit.Description = "Refresh yt-dlp cookies from Brave";
+        Unit.Description = "Refresh yt-dlp cookies from Firefox";
         Service = {
           Type = "oneshot";
           ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/.local/share/yt-dlp";

@@ -38,7 +38,7 @@
 
             if [ "''${6:-0}" -ge 4 ]; then set -x; fi
 
-            LOG="/tmp/yazi-portal.log"
+            LOG="''${XDG_RUNTIME_DIR:-/tmp}/yazi-portal.log"
             KITTY="${pkgs.kitty}/bin/kitty"
             YAZI="${pkgs.yazi}/bin/yazi"
 

@@ -81,7 +81,7 @@
 
                   datetime        "#[fg=#6C7086,bold] {format} "
                   datetime_format "%A, %d %b %Y %H:%M"
-                  datetime_timezone "Europe/London"
+                  datetime_timezone "Europe/Berlin"
                   }
               }
           }

@@ -6,7 +6,7 @@ alias zj="zellij"
 alias za="zellij attach -c"
 
 # To call bare sidecar repository for .config as suggested here - https://gemini.google.com/app/6ea86f370e8df057
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles-linux/ --work-tree=$HOME'
+alias dotfiles='git --git-dir=$HOME/.dotfiles-linux/ --work-tree=$HOME'
 
 # Lazygit nix home
 alias lh="lazygit -p ~/.config/home-manager"
@@ -17,7 +17,7 @@ alias co="cd ~/.config/home-manager/ && colmena apply --on"
 # To use lazygit to manage config
 alias ldf='lazygit --git-dir=$HOME/.dotfiles-linux/ --work-tree=$HOME'
 
-# Quicker nmapplet on fedora
+# Quicker nm-applet
 alias wifi='nm-applet'
 
 # Repomix make context for nix hm repo

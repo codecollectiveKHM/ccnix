@@ -12,7 +12,7 @@ source /home/mar/.config/vifm/favicons.vifm
 " Main settings
 " ------------------------------------------------------------------------------
 
-set shell=/usr/bin/zsh
+set shell=/run/current-system/sw/bin/zsh
 
 " Command used to edit files in various contexts.  The default is vim.
 " If you would like to use another vi clone such as Elvis or Vile
