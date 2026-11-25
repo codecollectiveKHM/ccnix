@@ -1,16 +1,17 @@
 {
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    substituters = [
-      "https://comfyui.cachix.org"
-      "https://nix-community.cachix.org"
-    ];
-    trusted-public-keys = [
-      "comfyui.cachix.org-1:33mf9VzoIjzVbp0zwj+fT51HG0y31ZTK3nzYZAX0rec="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  # Weekly: drop generations older than 120 days, then hard-link identical files
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 120d";
+  };
+  nix.optimise = {
+    automatic = true;
+    dates = [ "weekly" ];
   };
 }

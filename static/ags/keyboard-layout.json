@@ -1251,11 +1251,6 @@
         "icon": "",
         "type": "action"
       },
-      "T": {
-        "desc": "Vifm open",
-        "icon": "",
-        "type": "action"
-      },
       "Y": {
         "desc": "Yazi open",
         "icon": "",

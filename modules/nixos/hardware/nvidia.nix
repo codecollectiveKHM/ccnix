@@ -13,6 +13,13 @@
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+    # Prebuilt CUDA packages (ollama-cuda, whisper-cpp+CUDA, ...): unfree, so absent
+    # from cache.nixos.org and otherwise compiled locally on every nixpkgs bump.
+    # Key: wiki.nixos.org/wiki/CUDA. Merged before cache.nixos.org (mkAfter upstream).
+    nix.settings = {
+      substituters = [ "https://cache.nixos-cuda.org" ];
+      trusted-public-keys = [ "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M=" ];
+    };
     programs.nix-ld.libraries = [ config.hardware.nvidia.package ];
   };
 }
