@@ -1,0 +1,30 @@
+# Weekly flake.lock bump as a PR, then dispatch check.yml on it: PRs opened with
+# GITHUB_TOKEN trigger no workflows, but workflow_dispatch is exempt (no PAT needed).
+# Needs Settings → Actions → General → "Allow GitHub Actions to create and approve
+# pull requests" (and the org-level equivalent). Merge, then `colmena apply --on @workstation`.
+name: update-flake-lock
+on:
+  schedule:
+    - cron: "17 4 * * 1" # Mondays 04:17 UTC
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write # dispatch check.yml
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
+      - uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
+        id: update
+        with:
+          branch: update_flake_lock_action
+          pr-title: "flake.lock: update"
+          pr-labels: dependencies
+      - name: Run check on the PR branch
+        if: steps.update.outputs.pull-request-number != '' && steps.update.outputs.pull-request-operation != 'closed'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run check.yml --repo "$GITHUB_REPOSITORY" --ref update_flake_lock_action

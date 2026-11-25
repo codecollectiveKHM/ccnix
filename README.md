@@ -34,3 +34,15 @@ static/                 dotfiles linked by the modules
 ```
 
 **List what's on.** `nix eval .#nixosConfigurations.cc1.config.myModules --json | jq`
+
+## Conventions
+
+1. Every file under `modules/` is auto-imported and does nothing until enabled; hosts only set options.
+2. Roles and bundles only write `lib.mkDefault true`; a host or user opts out with a plain `= false`.
+3. HM follows the NixOS switch via `osConfig`: polkit/plasma/kanata for every user; the desktop bundle and flatpak for the primary user only (lab users such as `alle` opt in).
+4. No literal user names or `/home/...` in shared modules: `config.myModules.host.user` (NixOS), `config.home.homeDirectory` (HM).
+
+## Updates
+
+`update-flake-lock` opens a `flake.lock` PR every Monday and runs `check` on it; merge when green, then `colmena apply --on @workstation`.
+Pinned by hand (`npm view <pkg> version`): pi 1.6.0 in `pkgs/pi-coding-agent.nix`, opencode 1.19.6 in `modules/home/apps/opencode.nix`.
