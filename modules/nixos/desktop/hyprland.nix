@@ -34,11 +34,7 @@ in
           enable = true;
           enable32Bit = true; # Steam/32-bit apps
         };
-        environment.sessionVariables = {
-          WLR_NO_HARDWARE_CURSORS = "1";
-          NIXOS_OZONE_WL = "1";
-          ELECTRON_OZONE_PLATFORMT_HINT = "wayland";
-        };
+        environment.sessionVariables.NIXOS_OZONE_WL = "1"; # Electron/Chromium on Wayland
 
         services.xserver = {
           enable = true;

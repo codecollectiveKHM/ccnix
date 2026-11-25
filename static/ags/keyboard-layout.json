@@ -1298,6 +1298,11 @@
       }
     },
     "super-shift": {
+      "S": {
+        "desc": "Switch user (login screen, works when locked)",
+        "icon": "󰍃",
+        "type": "action"
+      },
       "R": {
         "desc": "Toggle laptop screen on/off",
         "icon": "󱎴",
