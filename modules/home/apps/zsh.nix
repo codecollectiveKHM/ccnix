@@ -4,9 +4,17 @@
   pkgs,
   ...
 }:
+let
+  inherit (config.myModules.host) name user flakePath;
+in
 {
   options.myModules.apps.zsh.enable = lib.mkEnableOption "zsh";
   config = lib.mkIf config.myModules.apps.zsh.enable {
+    home.sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+    };
+
     programs.zsh = {
       enable = true;
       dotDir = "${config.xdg.configHome}/zsh";
@@ -27,35 +35,33 @@
 
       syntaxHighlighting.enable = true;
 
+      # hm-session-vars.sh is sourced by HM's own .zshenv
       initContent = ''
-         # 1. Force load Home Manager session variables to bypass Wayland drops
-         if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
-         source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-         fi
+        source "$HOME/.config/shell/init.zsh"
 
-         source "$HOME/.config/shell/init.zsh"
+        # Load zsh-autocomplete LAST to ensure it hooks everything correctly
+        source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
-         # Load zsh-autocomplete LAST to ensure it hooks everything correctly
-         source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+        # Reclaim Up/Down arrows from zsh-autocomplete (CSI and application mode)
+        bindkey '^[[A' up-line-or-search
+        bindkey '^[OA' up-line-or-search
+        bindkey '^[[B' down-line-or-search
+        bindkey '^[OB' down-line-or-search
 
-        # Reclaim Up/Down arrows from zsh-autocomplete (both CSI and Application mode)
-         bindkey '^[[A' up-line-or-search
-         bindkey '^[OA' up-line-or-search
-         bindkey '^[[B' down-line-or-search
-         bindkey '^[OB' down-line-or-search
+        # Reclaim <C-s> from autocomplete
+        bindkey '^S' fzf-history-widget
 
-         # Reclaim <C-s> from autocomplete
-         bindkey '^S' fzf-history-widget
-
-         # Reclaim these fasd bindings, this removes the Alt-l closing shell bug
-         bindkey -r '^[l' '^[j' '^[k' '^[h'
+        # Reclaim these fasd bindings, this removes the Alt-l closing shell bug
+        bindkey -r '^[l' '^[j' '^[k' '^[h'
       '';
-      envExtra = ''
-        # This ensures the Nix profile is available for SSH / non-interactive commands
-        if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
-          source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-        fi
-      '';
+
+      shellAliases = {
+        nd = "zellij delete-session '${name}' --force";
+      }
+      # Rebuild this host (regenerates docs/TREE.md, stages everything): primary user's checkout + sudo
+      // lib.optionalAttrs (config.home.username == user) {
+        ns = "cd ${flakePath} && ./static/scripts/readme-tree-update.sh && git add -A && sudo nixos-rebuild switch --flake .#${name} && cd -";
+      };
     };
 
     # nix config > .zshenv > .zshrc > shell/init.zsh > modules.zsh

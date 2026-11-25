@@ -23,22 +23,13 @@
     home.stateVersion = "25.05";
     myModules.bundles.desktop.enable = true; # apps.hyprland → ~/.config/hypr
     myModules.apps.pi.enable = true;
-    # Same as admin (cc4.nix); without it Hyprland writes its default config
-    wayland.windowManager.hyprland = {
-      enable = true;
-      extraConfig = ''
-        hl.config({
-          input  = { sensitivity = -1.0 },
-          cursor = { no_hardware_cursors = true },
-        })
-      '';
-    };
-    home.sessionVariables = {
-      LIBVA_DRIVER_NAME = "nvidia";
-      GBM_BACKEND = "nvidia-drm";
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-      XDG_CURRENT_DESKTOP = "hyprland";
-    };
+    # Same as admin (cc4.nix); NVIDIA env comes from hardware/nvidia.nix
+    wayland.windowManager.hyprland.extraConfig = ''
+      hl.config({
+        input  = { sensitivity = -1.0 },
+        cursor = { no_hardware_cursors = true },
+      })
+    '';
   };
 
   # Early KMS (framebuffer console on the NVIDIA card)

@@ -20,6 +20,12 @@
       substituters = [ "https://cache.nixos-cuda.org" ];
       trusted-public-keys = [ "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M=" ];
     };
+    # Was in every host's HM sessionVariables; now for every user and session
+    environment.sessionVariables = {
+      LIBVA_DRIVER_NAME = "nvidia";
+      GBM_BACKEND = "nvidia-drm";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
     programs.nix-ld.libraries = [ config.hardware.nvidia.package ];
   };
 }

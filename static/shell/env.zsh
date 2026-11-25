@@ -3,21 +3,11 @@ export PATH="$HOME/.local/bin/:$PATH"
 export ANDROID_USER_HOME="$HOME/.local/share/android"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
-# Default Editor
-export EDITOR="nvim"
-export VISUAL="nvim"
-
-# XDG & Zsh Paths (HISTFILE: modules/home/apps/zsh.nix)
-export ZSH="$HOME/.config/oh-my-zsh"
+# EDITOR/VISUAL: home.sessionVariables in zsh.nix
+# XDG paths (HISTFILE: programs.zsh.history.path in zsh.nix)
 export SVN_CONFIG_DIR="$HOME/.config/subversion"
 export XDG_CONFIG_HOME="$HOME/.config"
 export PYTHONHISTORY="$HOME/.local/state/python/"
 
 # Oh My Zsh cache location fix
 export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
-
-# Load Standalone Home Manager variables (Required for Fedora)
-# NixOS handles this natively via PAM, so it safely skips this block.
-if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
-  . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-fi

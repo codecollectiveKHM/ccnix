@@ -9,6 +9,7 @@
 
     # Hyprland >= 0.57 only reads hyprland.lua
     wayland.windowManager.hyprland = {
+      enable = true;
       configType = "lua";
       systemd.variables = [ "--all" ]; # was exec-once dbus-update-activation-environment --systemd --all
       # Written to hypr/sources.lua and required with ~/.config/hypr on package.path

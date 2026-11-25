@@ -8,12 +8,8 @@ for cmd in git curl jq; do
   fi
 done
 
-# Ensure the API key is present
-if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
-  source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-elif [ -f "$HOME/.zshrc" ]; then
-  source "$HOME/.zshrc"
-fi
+# API key: env override, else pass (never stored in git)
+GEMINI_API_KEY="${GEMINI_API_KEY:-$(pass show api/gemini 2>/dev/null)}"
 if [ -z "$GEMINI_API_KEY" ]; then
   echo "Error: GEMINI_API_KEY environment variable is not set." >&2
   exit 1

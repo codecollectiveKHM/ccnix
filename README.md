@@ -13,7 +13,7 @@ Code Collective lab NixOS fleet. Layout: [docs/TREE.md](docs/TREE.md)
 ## Daily use
 
 ```sh
-ns                 # rebuild this host (alias in hosts/<h>/<h>.nix: tree update + git add -A + nixos-rebuild)
+ns                 # rebuild this host (alias in modules/home/apps/zsh.nix: tree update + git add -A + nixos-rebuild)
 nix flake check    # format, deadnix, statix, gitleaks, Hyprland config, eval all hosts
 nix fmt            # nixfmt-tree
 ```
