@@ -41,8 +41,9 @@
       url = "github:dj95/zjstatus";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # No follows: its own nixpkgs pin is what comfyui.cachix.org has prebuilt (CUDA PyTorch)
-    comfyui-nix.url = "github:utensils/comfyui-nix";
+    # Pinned rev (b4d4ed4 failed to build on cc1): `nix flake update` can't move it. Bump: edit the
+    # rev, `nix flake lock`, build cc1. No follows: its nixpkgs is what comfyui.cachix.org prebuilt.
+    comfyui-nix.url = "github:utensils/comfyui-nix/308a863c136ffc35fce293a81eac5d229b31d56d";
   };
 
   outputs =
