@@ -93,6 +93,7 @@ in
       music = home;
       pictures = home;
       videos = home;
+      projects = home; # HM default is ~/Projects
     };
 
     xdg.configFile = {
