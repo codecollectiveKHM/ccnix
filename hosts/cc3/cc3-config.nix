@@ -11,7 +11,7 @@
   myModules.system = {
     nvidia.enable = true;
     alle = {
-      enable = true; # no Home Manager config
+      enable = true;
       lanSsh = true;
     };
   };

@@ -18,9 +18,8 @@
   home-manager.users.alle =
     { pkgs, ... }:
     {
-      home.stateVersion = "25.05";
       programs.ags.enable = true;
-      myModules.apps = lib.genAttrs [ "labguide" "pi" "plasma" "yazi" ] (_: {
+      myModules.apps = lib.genAttrs [ "labguide" "pi" "yazi" ] (_: {
         enable = true;
       });
       home.packages = with pkgs; [

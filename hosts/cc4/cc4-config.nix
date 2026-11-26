@@ -20,7 +20,6 @@
   };
 
   home-manager.users.alle = {
-    home.stateVersion = "25.05";
     myModules.bundles.desktop.enable = true; # apps.hyprland → ~/.config/hypr
     myModules.apps.pi.enable = true;
     # Same as admin (cc4.nix); NVIDIA env comes from hardware/nvidia.nix

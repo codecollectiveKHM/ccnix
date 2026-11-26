@@ -1,5 +1,5 @@
-# alle — shared lab account. Its Home Manager setup stays in each host's
-# <h>-config.nix (home-manager.users.alle); modules/home is already loaded for it.
+# alle — shared lab account. Gets modules/home like every HM user (session defaults:
+# plasma, polkit, kanata); extra apps go in each host's <h>-config.nix (home-manager.users.alle).
 {
   config,
   lib,
@@ -29,6 +29,8 @@ in
     networking.firewall.allowedTCPPorts = lib.mkIf cfg.lanSsh [ 22 ]; # base keeps sshd tailnet-only
     # nixpkgs drops pam_unix from sshd's auth stack when PasswordAuthentication is globally off
     security.pam.services.sshd.unixAuth = lib.mkIf cfg.lanSsh (lib.mkForce true);
+
+    home-manager.users.alle.home.stateVersion = lib.mkDefault "25.05";
 
     users.users.alle = {
       isNormalUser = true;

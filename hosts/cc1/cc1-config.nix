@@ -34,7 +34,6 @@
   home-manager.users.alle =
     { lib, ... }:
     {
-      home.stateVersion = "25.05";
       programs.ags.enable = true;
       myModules.bundles = {
         cli.enable = true;
@@ -46,7 +45,7 @@
         (lib.genAttrs [ "labguide" "pi" "t3code" ] (_: {
           enable = true;
         }))
-        # Apps alle opts out of: bundle and NixOS-side defaults (keeps fzf git kitty lazygit ssh starship zsh)
+        # Apps alle opts out of from the bundles (keeps fzf git kitty lazygit ssh starship zsh)
         (lib.genAttrs
           [
             "direnv"
@@ -58,10 +57,7 @@
             "dunst"
             "firefox"
             "hyprland"
-            "kanata"
             "mpv"
-            "plasma"
-            "polkit"
             "rofi"
             "swayimg"
             "vlc"
