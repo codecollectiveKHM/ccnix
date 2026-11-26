@@ -1,4 +1,4 @@
-# Lab workstation = desktop role + Plasma fallback, NDI, nix-ld
+# Workstation = desktop role + Plasma fallback, NDI, nix-ld
 { config, lib, ... }:
 let
   on = lib.mkDefault true;

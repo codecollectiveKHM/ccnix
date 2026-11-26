@@ -6,6 +6,15 @@
 vim.g.maplocalleader = "|"
 vim.g.mapisoleader = "¤"
 
+-- Google Calendar Globals
+vim.g.calendar_google_calendar = 1
+vim.g.calendar_google_task = 1
+vim.g.calendar_week_number = 1
+vim.g.calendar_frame = "space"
+vim.g.calendar_first_day = "monday"
+vim.g.calendar_message_prefix = "fito_calendar"
+-- client_id / api_key / client_secret are read from pass when calendar.vim loads (plugins/user.lua)
+
 -- Tidal Globals
 vim.g.tidal_no_mappings = 1
 

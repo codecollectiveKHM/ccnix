@@ -27,10 +27,23 @@
           "ui.key.menuAccessKeyFocuses" = false; # remove alt menu focus
           "browser.download.folderList" = 2; # 0 desktop | 1 system downloads | 2 custom location
           "browser.download.dir" = "${config.home.homeDirectory}/Downloads";
+          "widget.wayland.fractional-scale.enabled" = true;
+          "layout.css.devPixelsPerPx" = "1.33"; # Scaling for firefox only
           "browser.quitShortcut.disabled" = true; # no <C-q> to quit
+          "browser.urlbar.autoFill.adaptiveHistory.enabled" = true; # autofill URL
           "extensions.update.enabled" = false; # nix pins addon versions
           "extensions.webextensions.keepStorageOnUninstall" = true;
           "extensions.webextensions.keepUuidOnUninstall" = true;
+        };
+        bookmarks = {
+          force = true;
+          settings = [
+            {
+              name = "Telegram Web";
+              keyword = "te";
+              url = "https://web.telegram.org";
+            }
+          ];
         };
         search = {
           force = true;
@@ -89,10 +102,12 @@
             darkreader
             violentmonkey
             bitwarden
+            # onetab
             reddit-enhancement-suite
             copy-as-markdown
             ublock-origin
             videospeed
+            aw-watcher-web
           ]
           ++ [
             (buildFirefoxXpiAddon {

@@ -2,10 +2,12 @@
   config,
   lib,
   pkgs,
+  osConfig,
   ...
 }:
 let
   inherit (config.myModules.host) name user flakePath;
+  vc = "/run/current-system/sw/bin/veracrypt";
 in
 {
   options.myModules.apps.zsh.enable = lib.mkEnableOption "zsh";
@@ -19,12 +21,6 @@ in
       enable = true;
       dotDir = "${config.xdg.configHome}/zsh";
 
-      history = {
-        path = "${config.xdg.configHome}/zsh/history";
-        size = 50000;
-        save = 50000;
-      };
-
       oh-my-zsh = {
         enable = true;
         plugins = [
@@ -34,6 +30,7 @@ in
       };
 
       syntaxHighlighting.enable = true;
+      history.path = "${config.xdg.stateHome}/zsh-history/.zsh_history"; # HM creates the dir
 
       # hm-session-vars.sh is sourced by HM's own .zshenv
       initContent = ''
@@ -61,6 +58,11 @@ in
       # Rebuild this host (regenerates docs/TREE.md, stages everything): primary user's checkout + sudo
       // lib.optionalAttrs (config.home.username == user) {
         ns = "cd ${flakePath} && ./static/scripts/readme-tree-update.sh && git add -A && sudo nixos-rebuild switch --flake .#${name} && cd -";
+      }
+      # VeraCrypt vault (pass → sudo rule in modules/nixos/features/veracrypt.nix; argv must match it)
+      // lib.optionalAttrs (osConfig.myModules.system.veracrypt.enable or false) {
+        obmount = "pass show obsidian-vault | sudo -n ${vc} --text --non-interactive --stdin --fs-options=nosuid,nodev --mount $HOME/.local/share/vault_container.md $HOME/vault && setsid -f obsidian >/dev/null 2>&1";
+        obunmount = "sudo -n ${vc} -t -d";
       };
     };
 

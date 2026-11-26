@@ -5,7 +5,7 @@
   myModules.bundles = {
     cli.enable = true;
     dev.enable = true;
-    personal.enable = true; # gpg/pass, syncthing, AI clients, anydesk
+    lab.enable = true; # gpg/pass, syncthing, AI clients, anydesk, languages
   };
 
   # ---------------------------------

@@ -1,4 +1,4 @@
-# Personal stack: secrets, sync, AI clients, remote desktop
+# Lab stack: secrets, sync, AI clients, remote desktop, languages (ccnix only)
 {
   config,
   lib,
@@ -7,15 +7,19 @@
   ...
 }:
 {
-  options.myModules.bundles.personal.enable =
-    lib.mkEnableOption "personal bundle (gpg/pass, sync, AI, remote desktop)";
+  options.myModules.bundles.lab.enable =
+    lib.mkEnableOption "lab bundle (gpg/pass, sync, AI, remote desktop, languages)";
 
-  config = lib.mkIf config.myModules.bundles.personal.enable {
+  config = lib.mkIf config.myModules.bundles.lab.enable {
     myModules.apps = lib.mkMerge [
       (lib.genAttrs
         [
           "gpg"
           "syncthing"
+          "gh-dash"
+          "miniconda"
+          "quarto"
+          "rust"
         ]
         (_: {
           enable = lib.mkDefault true;

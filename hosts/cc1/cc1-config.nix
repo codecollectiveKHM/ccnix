@@ -39,7 +39,7 @@
         cli.enable = true;
         desktop.enable = true;
         dev.enable = true;
-        personal.enable = true;
+        lab.enable = true;
       };
       myModules.apps = lib.mkMerge [
         (lib.genAttrs [ "labguide" "pi" "t3code" ] (_: {

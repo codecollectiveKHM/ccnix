@@ -78,6 +78,22 @@ return {
 
   -- Custom Tools
   { "ZSaberLv0/ZFVimDirDiff", dependencies = { "ZSaberLv0/ZFVimJob" } },
+  {
+    "itchyny/calendar.vim",
+    cmd = "Calendar",
+    config = function() -- secrets from pass, loaded only when :Calendar runs
+
+      local function pass(k)
+        local r = vim.system({ "pass", "show", k }, { text = true }):wait()
+        if r.code == 0 and r.stdout ~= "" then return vim.split(r.stdout, "\n")[1] end
+        vim.notify("calendar.vim: `pass show " .. k .. "` failed (gpg locked?)", vim.log.levels.ERROR)
+      end
+
+      vim.g.calendar_google_client_id = pass("api/google-calendar-client-id")
+      vim.g.calendar_google_api_key = pass("api/google-calendar")
+      vim.g.calendar_google_client_secret = pass("api/google-calendar-secret")
+    end,
+  },
   { "andrewferrier/wrapping.nvim", config = true },
   { "carlosrocha/chrome-remote.nvim" },
   { "tpope/vim-surround" },
@@ -108,6 +124,17 @@ return {
 --    end, { noremap = true, silent = true })
 -- end,
 -- },
+{
+  "knownasnaffy/himalaya.nvim",
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+  },
+  opts = {
+    -- Optional configuration
+    -- icons_enabled = false, -- set to true to use nerd font icons
+    -- wrap_folder_navigation = true,
+  },
+},
 
 {
     "akinsho/bufferline.nvim",

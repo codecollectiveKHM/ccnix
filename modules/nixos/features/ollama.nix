@@ -11,11 +11,7 @@
     services.ollama = {
       enable = true;
       package = pkgs.ollama-cuda;
-      # Pulled by ollama-model-loader.service in the background, not at boot
-      loadModels = [
-        "llava:13b"
-        "gemma4:e2b"
-      ];
+      # Models: services.ollama.loadModels in the host (or site) config; pulled in the background
     };
   };
 }
