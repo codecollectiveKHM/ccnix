@@ -52,7 +52,7 @@
       libnotify # notify-send
       socat # Hyprland IPC tracking, Bottles ags script fix
       hyprlock # lock screen
-      hypridle # idle lock + DPMS, started by autostart.lua
+      hypridle # lock on suspend, started by autostart.lua
       hyprpaper # wallpaper, started by autostart.lua
     ];
 

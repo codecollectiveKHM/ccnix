@@ -26,13 +26,13 @@ For an agent working on repos that live on cc1/cc4/your laptop:
 
 ```sh
 ssh alle@cc2.local edge0 start                  # or start it as in 1.
-ssh -fN edge0-cc2                               # tunnel: local :18000 → cc2:8000 (apps/ssh.nix)
+ssh -fN edge0-cc2                               # tunnel: local :18000 → cc2:8000 (ai-endpoints.nix)
 curl -s localhost:18000/v1/models               # check: lists edge0_145b
 pi                                              # /model → Edge0 145B (cc2)
 pkill -f 'ssh -fN edge0-cc2'                    # close the tunnel
 ```
 
-Every ccnix host without edge0 already has the `edge0-cc2` endpoint (`modules/home/ai-endpoints.nix`).
+Every ccnix host other than the server has the `edge0-<server>` endpoint and tunnel (servers: `myModules.ai.edge0Servers` in `modules/nixos/base/site.nix`).
 Port 18000, not 8000: cc1's JupyterHub holds `127.0.0.1:8000`.
 
 Any other computer with Node.js 22.19+ (Linux, macOS, WSL): `static/scripts/edge0-connect.sh`

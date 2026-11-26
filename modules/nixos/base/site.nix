@@ -12,6 +12,31 @@ in
   # Tailscale SSH on :22 over the tailnet; :22 on the LAN comes from alle.lanSsh
   services.tailscale.extraSetFlags = [ "--ssh" ];
 
+  home-manager.sharedModules = [
+    {
+      # Lab LAN consumers tunnel in as alle (alle.lanSsh). Local 18000+, not 8000: cc1's JupyterHub holds it
+      myModules.ai.edge0Servers = {
+        cc1 = {
+          sshHost = "cc1.local";
+          sshUser = "alle";
+          localPort = 18001;
+        };
+        cc2 = {
+          sshHost = "cc2.local";
+          sshUser = "alle";
+          localPort = 18000;
+        };
+      };
+      # Every flatpak host (apps/flatpak.nix); a host's own list adds to it
+      services.flatpak.packages = [
+        "com.usebottles.bottles"
+        "com.github.tchx84.Flatseal"
+        "com.bambulab.BambuStudio"
+        "org.freecad.FreeCAD"
+      ];
+    }
+  ];
+
   # Hosts with myModules.system.ollama.enable pull these
   services.ollama.loadModels = [
     "llava:13b"

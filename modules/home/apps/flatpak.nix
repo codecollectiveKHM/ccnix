@@ -24,13 +24,7 @@
         }
       ];
 
-      # Every flatpak host; a host's own list adds to it
-      packages = [
-        "com.usebottles.bottles"
-        "com.github.tchx84.Flatseal"
-        "com.bambulab.BambuStudio"
-        "org.freecad.FreeCAD"
-      ];
+      # packages: base/site.nix (every flatpak host of the repo) + the host file
 
       update.auto = {
         enable = true;
