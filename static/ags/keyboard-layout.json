@@ -1294,12 +1294,12 @@
     },
     "super-shift": {
       "S": {
-        "desc": "Switch user (login screen, works when locked)",
+        "desc": "Switch user",
         "icon": "󰍃",
         "type": "action"
       },
       "R": {
-        "desc": "Toggle laptop screen on/off",
+        "desc": "Toggle laptop screen",
         "icon": "󱎴",
         "type": "action"
       },
