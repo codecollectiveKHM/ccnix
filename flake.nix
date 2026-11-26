@@ -116,7 +116,7 @@
             pkgs.runCommand "check-hyprland-config" { nativeBuildInputs = [ pkgs.hyprland ]; } ''
               export HOME=$TMPDIR XDG_RUNTIME_DIR=$TMPDIR XDG_CONFIG_HOME=$TMPDIR/.config
               mkdir -p $XDG_CONFIG_HOME && cp -r ${./static/hypr} $XDG_CONFIG_HOME/hypr && chmod -R u+w $XDG_CONFIG_HOME
-              cp ${./static/hypr-choose/sources-nixos.lua} $XDG_CONFIG_HOME/hypr/sources.lua
+              cp ${./static/hypr-sources.lua} $XDG_CONFIG_HOME/hypr/sources.lua
               cp ${
                 pkgs.writeText "hyprland.lua" hm.xdg.configFile."hypr/hyprland.lua".text
               } $XDG_CONFIG_HOME/hypr/hyprland.lua

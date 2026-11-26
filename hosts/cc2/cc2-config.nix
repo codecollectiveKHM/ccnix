@@ -4,7 +4,7 @@
   imports = [ ./cc2-hardware.nix ];
   system.stateVersion = "26.05";
 
-  myModules.roles.workstation.enable = true; # desktop+plasma, audio, kanata, ndi
+  myModules.roles.workstation.enable = true;
   myModules.system = {
     nvidia.enable = true;
     ollama.enable = true;
@@ -58,10 +58,7 @@
   myModules.system.edge0.enable = true; # systemctl start edge0 (any user)
 
   services.flatpak.enable = true; # Bottles (HM nix-flatpak)
-  fonts.packages = with pkgs; [
-    corefonts
-    vista-fonts # Calibri, Consolas, ...
-  ];
+  fonts.packages = [ pkgs.vista-fonts ]; # Calibri, Consolas, ...
 
   environment.systemPackages = [ pkgs.ollama ];
 }

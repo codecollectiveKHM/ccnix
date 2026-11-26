@@ -7,7 +7,7 @@
   ];
   system.stateVersion = "26.05";
 
-  myModules.roles.workstation.enable = true; # desktop+plasma, audio, kanata, ndi
+  myModules.roles.workstation.enable = true;
   myModules.system = {
     nvidia.enable = true;
     alle = {
@@ -17,8 +17,5 @@
   };
 
   services.flatpak.enable = true; # Bottles (HM nix-flatpak)
-  fonts.packages = with pkgs; [
-    corefonts
-    vista-fonts # Calibri, Consolas, ...
-  ];
+  fonts.packages = [ pkgs.vista-fonts ]; # Calibri, Consolas, ...
 }

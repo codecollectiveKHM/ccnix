@@ -4,12 +4,10 @@
   user = "admin";
 
   deployment = {
-    targetHost = "cc2.tail92efad.ts.net";
     targetUser = "root";
     allowLocalDeployment = true;
     tags = [
       "workstation"
-      "linux"
     ];
   };
 }

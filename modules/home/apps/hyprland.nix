@@ -13,7 +13,7 @@
       configType = "lua";
       systemd.variables = [ "--all" ]; # was exec-once dbus-update-activation-environment --systemd --all
       # Written to hypr/sources.lua and required with ~/.config/hypr on package.path
-      extraLuaFiles.sources.content = ../../../static/hypr-choose/sources-nixos.lua;
+      extraLuaFiles.sources.content = ../../../static/hypr-sources.lua;
     };
   };
 }

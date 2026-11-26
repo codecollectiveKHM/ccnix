@@ -1,4 +1,4 @@
-# Hyprland session (+ optional SDDM/Plasma fallback). Replaces gui-config.
+# myModules.system.desktop: Hyprland session (+ optional SDDM/Plasma fallback)
 {
   config,
   lib,
@@ -35,6 +35,7 @@ in
           enable32Bit = true; # Steam/32-bit apps
         };
         environment.sessionVariables.NIXOS_OZONE_WL = "1"; # Electron/Chromium on Wayland
+        fonts.packages = [ pkgs.corefonts ]; # system-wide: every user (alle), login screen
 
         services.xserver = {
           enable = true;

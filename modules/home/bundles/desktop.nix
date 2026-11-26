@@ -28,6 +28,7 @@
           "vlc"
           "waybar"
           "wlr-which-key"
+          "yazi-portal" # NixOS yazi portal picker
           "zathura"
         ]
         (_: {
@@ -38,7 +39,6 @@
       hyprshot # screenshots
       wev # wayland event debugger
       wl-clipboard # clipboard for nvim
-      corefonts
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
@@ -46,7 +46,7 @@
       nerd-fonts.fira-code
       nerd-fonts.iosevka
       nerd-fonts.caskaydia-cove
-      kitty # GPU accelerated
+      maple-mono.NF
       xdg-desktop-portal-gtk # yazi as desktop portal
       xdg-desktop-portal-termfilechooser # yazi as desktop portal
       libnotify # notify-send

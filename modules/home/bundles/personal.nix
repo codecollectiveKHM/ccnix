@@ -11,15 +11,18 @@
     lib.mkEnableOption "personal bundle (gpg/pass, sync, AI, remote desktop)";
 
   config = lib.mkIf config.myModules.bundles.personal.enable {
-    myModules.apps =
-      lib.genAttrs
+    myModules.apps = lib.mkMerge [
+      (lib.genAttrs
         [
           "gpg"
           "syncthing"
         ]
         (_: {
           enable = lib.mkDefault true;
-        });
+        })
+      )
+      { gpg.pinentry = lib.mkDefault pkgs.pinentry-tty; } # lab: no rofi pinentry
+    ];
 
     home.packages = with pkgs; [
       inputs.nix-claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default # llm agent cli

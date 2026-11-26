@@ -8,16 +8,23 @@
     personal.enable = true; # gpg/pass, syncthing, AI clients, anydesk
   };
 
+  # ---------------------------------
+  # Packages & apps only on this host
+  # ---------------------------------
+
   myModules.apps =
     lib.genAttrs
       [
-        "yazi-portal" # NixOS yazi portal picker
         "t3code"
-        "pi" # gemma4
+        "pi" # harness
       ]
       (_: {
         enable = true;
       });
+
+  # --------------------------------
+  # Extra settings only on this host
+  # --------------------------------
 
   programs.zsh.envExtra = ''
     export STARSHIP_HOST_ICON="*󰲤 "

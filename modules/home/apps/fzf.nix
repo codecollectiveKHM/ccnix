@@ -8,7 +8,6 @@
   config = lib.mkIf config.myModules.apps.fzf.enable {
     programs.fzf = {
       enable = true;
-      enableZshIntegration = true;
 
       # using fasd for file frequency ranking on results
       defaultCommand = "(fasd -Rfl 2>/dev/null; fd --type f --hidden) | awk 'seen[$ 0]++ == 0'";
@@ -38,7 +37,6 @@
         "--preview 'bat --color=always --style=plain {} 2>/dev/null'"
         "--preview-window=right:60%:border-left"
         "--height=80%"
-        "--tiebreak=index" # Force fzf to follow fasd ordering first
       ];
     };
   };

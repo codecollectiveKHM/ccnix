@@ -24,8 +24,8 @@
         }
       ];
 
-      # Default set; a host's own list replaces it
-      packages = lib.mkDefault [
+      # Every flatpak host; a host's own list adds to it
+      packages = [
         "com.usebottles.bottles"
         "com.github.tchx84.Flatseal"
         "com.bambulab.BambuStudio"

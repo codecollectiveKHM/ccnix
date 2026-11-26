@@ -6,6 +6,9 @@
 let
   inherit (inputs.nixpkgs) lib;
 
+  # Tailscale MagicDNS suffix of the lab tailnet: change it here only
+  tailnet = "tail92efad.ts.net";
+
   # One nixpkgs policy for NixOS and the devShell
   nixpkgsArgs = {
     config.allowUnfree = true;
@@ -15,14 +18,29 @@ let
     ];
   };
 
-  hosts = lib.mapAttrs (name: _: import ../hosts/${name}/${name}-meta.nix // { inherit name; }) (
-    lib.filterAttrs (
-      name: type: type == "directory" && builtins.pathExists ../hosts/${name}/${name}-meta.nix
-    ) (builtins.readDir ../hosts)
-  );
+  # deployment.targetHost defaults to <name>.<tailnet>; a meta file can still set its own
+  hosts =
+    lib.mapAttrs
+      (
+        name: _:
+        lib.recursiveUpdate { deployment.targetHost = "${name}.${tailnet}"; } (
+          import ../hosts/${name}/${name}-meta.nix
+        )
+        // {
+          inherit name;
+        }
+      )
+      (
+        lib.filterAttrs (
+          name: type: type == "directory" && builtins.pathExists ../hosts/${name}/${name}-meta.nix
+        ) (builtins.readDir ../hosts)
+      );
 
   facts = host: {
-    myModules.host = { inherit (host) name user; };
+    myModules.host = {
+      inherit (host) name user;
+      inherit tailnet;
+    };
   };
 
   # Shared by nixosSystem and colmena

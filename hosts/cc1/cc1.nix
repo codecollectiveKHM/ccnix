@@ -8,17 +8,24 @@
     personal.enable = true; # gpg/pass, syncthing, AI clients, anydesk
   };
 
+  # ---------------------------------
+  # Packages & apps only on this host
+  # ---------------------------------
+
   myModules.apps =
     lib.genAttrs
       [
-        "yazi-portal" # NixOS yazi portal picker
         "labguide" # desktop widget (list: modules/home/apps/labguide.nix)
         "t3code"
-        "pi" # gemma4
+        "pi" # harness
       ]
       (_: {
         enable = true;
       });
+
+  # --------------------------------
+  # Extra settings only on this host
+  # --------------------------------
 
   wayland.windowManager.hyprland.extraConfig = ''
     hl.config({ input = { sensitivity = -1.0 } })

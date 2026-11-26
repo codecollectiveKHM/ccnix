@@ -14,10 +14,19 @@ in
       type = types.str;
       description = "Primary user.";
     };
+    tailnet = mkOption {
+      type = types.str;
+      description = "Tailscale MagicDNS suffix (lib/default.nix).";
+    };
+    fqdn = mkOption {
+      type = types.str;
+      default = "${config.myModules.host.name}.${config.myModules.host.tailnet}";
+      description = "This host's tailnet name.";
+    };
     flakePath = mkOption {
       type = types.str;
       default = "/home/${config.myModules.host.user}/.config/home-manager";
-      description = "Local checkout of this flake (nh, out-of-store symlinks).";
+      description = "Local checkout of this flake (out-of-store symlinks).";
     };
   };
 }
