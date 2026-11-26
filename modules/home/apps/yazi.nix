@@ -13,6 +13,7 @@
   config = lib.mkMerge [
     # 1. Base Yazi configuration
     (lib.mkIf config.myModules.apps.yazi.enable {
+
       home.packages = with pkgs; [
         # pkgs.yazi
         (writeShellScriptBin "yazi" ''

@@ -27,7 +27,6 @@ in
   config = lib.mkIf config.myModules.apps.whisper.enable {
     home.packages = [
       whisper
-      pkgs.ffmpeg
       (mkScript "transcribe" (
         with pkgs;
         [
@@ -48,8 +47,5 @@ in
         ]
       ))
     ];
-    wayland.windowManager.hyprland.extraConfig = ''
-      hl.bind("SUPER + ALT + D", hl.dsp.exec_cmd("dictate"))
-    '';
   };
 }

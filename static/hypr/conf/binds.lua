@@ -7,9 +7,9 @@ end
 
 -- Apps
 b("O", exec("obsidian"))
-b("T", exec("kitty -e vifm"))
 b("U", exec("kitty -e nvim"))
 b("Y", exec("kitty -e yazi"))
+b("ALT + D", exec("kitty -e dictate"))
 b("SHIFT + Y", exec("mpv-clipboard"))
 b("D", exec("~/.scripts/toggle_kitty_opacity.sh"))
 b("Z", exec("~/.scripts/toggle-touchpad.sh"))

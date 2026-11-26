@@ -1,11 +1,19 @@
 {
   config,
   lib,
+  pkgs,
+  osConfig,
   ...
 }:
+let
+  # VeraCrypt vault widget only where the vault exists
+  vault = osConfig.myModules.system.veracrypt.enable or false;
+  bluetooth = osConfig.hardware.bluetooth.enable;
+in
 {
   options.myModules.apps.waybar.enable = lib.mkEnableOption "waybar";
   config = lib.mkIf config.myModules.apps.waybar.enable {
+    home.packages = lib.optional bluetooth pkgs.overskride; # bluetooth widget on-click
     programs.waybar = {
       enable = true;
       settings = {
@@ -31,10 +39,13 @@
           ];
 
           modules-right = [
-            "mpd"
             "pulseaudio"
             "network"
-            "tray"
+          ]
+          ++ lib.optional bluetooth "bluetooth"
+          ++ [ "tray" ]
+          ++ lib.optional vault "custom/vault"
+          ++ [
             "battery"
             "clock"
           ];

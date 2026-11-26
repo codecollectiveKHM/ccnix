@@ -9,6 +9,13 @@
 // ----------------------------------------------------- 
 //
 {
+  "custom/vault": {
+    "exec": "~/.scripts/obsidian-mount-status.sh",
+    "return-type": "json",
+    "interval": 5,
+    "on-click": "~/.scripts/obsidian-mount.sh",
+    "signal": 8
+  },
   // Workspaces
   "hyprland/workspaces": {
     "on-click": "activate",
@@ -171,10 +178,15 @@
   },
   // Bluetooth
   "bluetooth": {
+    "format": "", // icon only: no on/off text
+    "format-connected": "󰂱",
+    "tooltip-format": "{controller_alias}: {status}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
     "format-disabled": "",
     "format-off": "",
     "interval": 30,
-    "on-click": "blueman-manager",
+    "on-click": "overskride",
     "format-no-controller": ""
   },
   // Other

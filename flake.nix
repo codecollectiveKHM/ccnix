@@ -127,7 +127,7 @@
         };
 
       # `nix build .#<name>` for everything in pkgs/
-      packages.${system} = import ./pkgs { inherit pkgs; };
+      packages.${system} = import ./pkgs { inherit pkgs inputs; };
 
       # nixosConfigurations.<host> for every hosts/<host>/<host>-meta.nix, plus the installer ISO
       nixosConfigurations = lib.mapAttrs (_: hosts.mkNixos) hosts.hosts // {

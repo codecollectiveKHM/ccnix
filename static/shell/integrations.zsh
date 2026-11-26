@@ -20,12 +20,21 @@ bindkey '^Q' delete-char-or-list
 
 # Prompt & Navigation
 eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
 
-# Package Managers & Runtimes, run only on Fedora
-if (( $+commands[brew])); then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# OSC 133 marks inside zellij (starship emits none; kitty's integration covers plain kitty).
+# The output mark (C) sits at the prompt, so zellij's CopyLastCommandOutput (mod Y)
+# copies prompt + command + output.
+if [[ -n $ZELLIJ ]]; then
+  _osc133_precmd() {
+    local s=$?
+    (( ${+_osc133_ran} )) && print -n "\e]133;D;$s\a"
+    print -n '\e]133;A\a\e]133;C\a'
+  }
+  _osc133_preexec() { _osc133_ran=1 }
+  precmd_functions=(_osc133_precmd $precmd_functions) # first, so $? is the command's
+  preexec_functions+=(_osc133_preexec)
 fi
+eval "$(zoxide init zsh)"
 
 # Check if file exists before sourcing it
 [ -f "$HOME/.deno/env" ] && . "$HOME/.deno/env"

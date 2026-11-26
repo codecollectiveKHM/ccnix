@@ -1,6 +1,10 @@
 #!/bin/bash
 # 1. Switch to an empty workspace to hide your windows
-hyprctl dispatch 'hl.dsp.focus({ workspace = "empty" })'
+if [ -e ~/.config/hypr/hyprland.lua ]; then
+  hyprctl dispatch 'hl.dsp.focus({ workspace = "empty" })'
+else
+  hyprctl dispatch workspace empty
+fi
 
 # 2. Briefly wait for the workspace transition to finish (optional)
 sleep 0.1

@@ -23,7 +23,5 @@ in
     hashedPasswordFile = passFile;
     openssh.authorizedKeys.keys = keys.admins;
   };
-  security.sudo.wheelNeedsPassword = true;
-
   systemd.tmpfiles.rules = [ "d /home/${user} 0700 ${user} users - -" ];
 }

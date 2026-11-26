@@ -1,4 +1,4 @@
-# Shell, terminal tools and core dotfiles
+# Shell, terminal tools and core dotfiles — every host
 {
   config,
   lib,
@@ -6,8 +6,8 @@
   ...
 }:
 let
-  home = config.home.homeDirectory;
   inherit (config.myModules.host) flakePath;
+  home = config.home.homeDirectory;
 in
 {
   options.myModules.bundles.cli.enable = lib.mkEnableOption "CLI bundle";
@@ -33,8 +33,6 @@ in
         });
 
     home.packages = with pkgs; [
-      poppler-utils # pdfunite pdftoppm, pdfinfo
-      qpdf # merge encrypted pdfs
       ast-grep # grep
       bat # cat w highlights & more
       btop # resource monitor
@@ -47,6 +45,8 @@ in
       imagemagick # terminal images
       jq # json parser
       pandoc # text convert cmd
+      poppler-utils # pdfunite pdftoppm, pdfinfo
+      qpdf # merge encrypted pdfs
       ripgrep # search
       sshfs # mount remote dirs over ssh
       tailscale # ssh virtual network aliaser
@@ -59,8 +59,6 @@ in
       as-tree # folder trees w fd
       gh # github CLI
       dnsutils # debugging fileshare
-      ffmpeg # video tooling
-      yq # cml YAML JSON XML processor
       uv # Python tooling
       # Python tooling; links zstd + aws-lc (missing from nixpkgs buildInputs)
       (pixi.overrideAttrs (old: {
@@ -69,6 +67,8 @@ in
           aws-lc
         ];
       }))
+      ffmpeg # video tooling
+      yq # cml YAML JSON XML processor
       python3
       xxd
       psmisc # killall, fuser, pstree
@@ -97,7 +97,8 @@ in
 
     xdg.configFile = {
       "nvim".source = config.lib.file.mkOutOfStoreSymlink "${flakePath}/static/nvim";
-      # Apps rewrite this; force keeps HM authoritative
+      # Apps replace this file when you pick a default app; the repo copy wins on every switch.
+      # Change defaults in static/mimeapps.list.
       "mimeapps.list" = {
         source = ../../../static/mimeapps.list;
         force = true;

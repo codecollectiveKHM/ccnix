@@ -22,13 +22,22 @@ FPS=60
 PORT=5901
 killall hypridle
 
+# monitor <output> <mode|disable> [position]
+monitor() {
+    if [ "$2" = disable ]; then
+        hyprctl eval "hl.monitor({ output = \"$1\", disabled = true })"
+    else
+        hyprctl eval "hl.monitor({ output = \"$1\", mode = \"$2\", position = \"${3:-auto}\", scale = 1 })"
+    fi
+}
+
 cleanup() {
     echo -e "\n[!] Restoring normal screen setup..."
 
     # 1. Wake screen
     echo "[*] Waking up laptop screen..."
-    hyprctl eval "hl.monitor({ output = '$LAPTOP_DISPLAY', mode = 'preferred', position = '0x0', scale = 1 })"
-    hyprctl dispatch "hl.dsp.dpms({ action = 'on', monitor = '$LAPTOP_DISPLAY' })"
+    monitor "$LAPTOP_DISPLAY" preferred 0x0
+    ~/.scripts/hypr-dpms.sh on "$LAPTOP_DISPLAY"
 
     # Wait for display to wake up and close virtual monitor
     sleep 1
@@ -90,9 +99,9 @@ echo "[*] Turning off laptop display and creating headless monitor ($WIDTH x $HE
 # Create the new headless output
 hyprctl output create headless $OUTPUT_NAME
 # Places the phone to the RIGHT of your current screen automatically
-hyprctl eval "hl.monitor({ output = '$OUTPUT_NAME', mode = '${WIDTH}x${HEIGHT}@$FPS', position = 'auto', scale = 1 })"
+monitor "$OUTPUT_NAME" "${WIDTH}x${HEIGHT}@$FPS"
 # Disable laptop screen
-hyprctl eval "hl.monitor({ output = '$LAPTOP_DISPLAY', disabled = true })"
+monitor "$LAPTOP_DISPLAY" disable
 
 
 

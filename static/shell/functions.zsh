@@ -47,32 +47,6 @@ lazygit() {
 unalias v 2>/dev/null
 unalias z 2>/dev/null
 
-# # V fzf direct piper and preview
-# v() {
-#   # If you just type 'nvim' and press Enter, automatically open fzf
-#   if [[ $# -eq 0 ]]; then
-# # Define the theme string so the command doesn't become a massive unreadable block
-#     local theme="bg+:#363a4f,bg:-1,hl:#ed8796,header:#ed8796,pointer:#ff4852,marker:#b7bdf8,fg+:#cad3f5,hl+:#ed8796,preview-bg:#2c2e34"
-#     # Notice the single quotes added around the --preview-window string
-#     local files=("${(@f)$(
-#      (fasd -Rfl 2>/dev/null; fd --type f --hidden 2>/dev/null) | awk 'seen[$ 0]++ == 0' | \ 
-#       fzf --multi --margin="0,2" --color="$theme" --no-height \
-#       --preview 'bat --theme="Dracula" --color=always --style=plain {} 2>/dev/null' \
-#       --preview-window='right:60%:border-left,<80(down:50%:border-top)')}")
-#     # If a file was selected, open it using the ACTUAL nvim binary
-#     if [[ ${#files[@]} -gt 0 && -n "${files[1]}" ]]; then
-#       # Add them to fasd cache
-# fasd -A "${files[@]}" 2>/dev/null
-#       command nvim "${files[@]}"
-#     fi
-#   else
-#     # If you type 'nvim filename.txt', bypass fzf completely and just open it
-# fasd -A "$@" 2>/dev/null
-#     command nvim "$@"
-#   fi
-# }
-
-
 # Helper: launch nvim under direnv when the target lives inside a .envrc
 # project, so the flake's devShell LSPs/formatters end up on $PATH.
 _v_launch() {

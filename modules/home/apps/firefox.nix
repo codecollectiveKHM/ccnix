@@ -107,14 +107,19 @@
                 platforms = platforms.all;
               };
             })
-            (buildFirefoxXpiAddon {
-              pname = "onetab";
-              version = "2.20";
-              addonId = "extension@one-tab.com";
-              url = "https://addons.mozilla.org/firefox/downloads/file/5042610/onetab-2.20.xpi";
-              sha256 = "f4cbd1015e1c265f31dc7d8e74252b7ac57dafe93bd3df32d8e64d59230f4174";
-              meta.license = pkgs.lib.licenses.unfree;
-            })
+            (
+              if lib.versionAtLeast (lib.getVersion onetab) "2.20" then
+                onetab
+              else
+                buildFirefoxXpiAddon {
+                  pname = "onetab";
+                  version = "2.20";
+                  addonId = "extension@one-tab.com";
+                  url = "https://addons.mozilla.org/firefox/downloads/file/5042610/onetab-2.20.xpi";
+                  sha256 = "f4cbd1015e1c265f31dc7d8e74252b7ac57dafe93bd3df32d8e64d59230f4174";
+                  meta.license = pkgs.lib.licenses.unfree;
+                }
+            )
           ];
       };
     };

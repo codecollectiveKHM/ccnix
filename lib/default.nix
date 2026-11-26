@@ -14,27 +14,32 @@ let
     config.allowUnfree = true;
     overlays = [
       inputs.nur.overlays.default
-      (final: _: import ../pkgs { pkgs = final; }) # pkgs/ → pkgs.<name>
+      # pkgs/ → pkgs.<name>
+      (
+        final: _:
+        import ../pkgs {
+          pkgs = final;
+          inherit inputs;
+        }
+      )
     ];
   };
 
   # deployment.targetHost defaults to <name>.<tailnet>; a meta file can still set its own
-  hosts =
-    lib.mapAttrs
-      (
-        name: _:
-        lib.recursiveUpdate { deployment.targetHost = "${name}.${tailnet}"; } (
-          import ../hosts/${name}/${name}-meta.nix
-        )
-        // {
-          inherit name;
-        }
-      )
-      (
-        lib.filterAttrs (
-          name: type: type == "directory" && builtins.pathExists ../hosts/${name}/${name}-meta.nix
-        ) (builtins.readDir ../hosts)
-      );
+  mkHost =
+    name:
+    lib.recursiveUpdate { deployment.targetHost = "${name}.${tailnet}"; } (
+      import ../hosts/${name}/${name}-meta.nix
+    )
+    // {
+      inherit name;
+    };
+
+  hosts = lib.mapAttrs (name: _: mkHost name) (
+    lib.filterAttrs (
+      name: type: type == "directory" && builtins.pathExists ../hosts/${name}/${name}-meta.nix
+    ) (builtins.readDir ../hosts)
+  );
 
   facts = host: {
     myModules.host = {

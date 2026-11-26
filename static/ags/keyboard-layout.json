@@ -1577,7 +1577,7 @@
       },
       "O": {
         "desc": "fetch Obsidian config repo",
-        "icon": "",
+        "icon": "",
         "type": "action"
       }
     },
@@ -2915,12 +2915,17 @@
         "type": "action"
       },
       "Y": {
-        "desc": "Floating panel Zellij",
+        "desc": "Copy last command",
         "icon": "",
         "type": "action"
       },
       "U": {
         "desc": "Scrollback Zellij",
+        "icon": "",
+        "type": "action"
+      },
+      "F": {
+        "desc": "Floating pane",
         "icon": "",
         "type": "action"
       }

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerate docs/TREE.md (repo layout without static/ contents). README.md is handwritten.
+# Regenerate docs/TREE.md (repo layout without static/ contents); run by `ns`. README.md is handwritten.
 set -euo pipefail
 
 for cmd in fd as-tree; do

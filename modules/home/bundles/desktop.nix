@@ -63,8 +63,8 @@
     };
 
     xdg.configFile = {
-      "browser".source = ../../../static/browser; # browser dotfiles
-      "gemini-rofi".source = ../../../static/gemini-rofi; # rofi prompt library
+      "browser".source = ../../../static/browser;
+      "gemini-rofi".source = ../../../static/gemini-rofi;
     };
 
     dconf.settings = {

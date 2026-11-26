@@ -2,10 +2,11 @@ static/labguide/packages.json
 secrets/hostkeys/*
 !secrets/hostkeys/*.pub
 .direnv/
+.result/
 result
 result-*
 *.patch
-# never commit plaintext secrets; use agenix (secrets/*.age)
+# never commit plaintext secrets; use agenix (secrets/*.age) or pass
 *.key
 *.pem
 .env
