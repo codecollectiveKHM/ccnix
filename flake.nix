@@ -107,6 +107,7 @@
           gitleaks = run "gitleaks" [
             pkgs.gitleaks
           ] "gitleaks dir --no-banner --redact --exit-code 1 .";
+          privacy = run "privacy" [ ] "bash static/scripts/privacy-check.sh";
           # Parse the real NixOS Hyprland config (cc1: hyprland.lua + sources.lua) with the locked Hyprland
           hyprland-config =
             let

@@ -6,6 +6,7 @@ secrets/hostkeys/*
 result
 result-*
 *.patch
+repomix-output*
 # never commit plaintext secrets; use agenix (secrets/*.age) or pass
 *.key
 *.pem
