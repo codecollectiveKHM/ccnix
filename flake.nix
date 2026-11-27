@@ -2,9 +2,10 @@
   description = "Code Collective lab: NixOS + Home Manager flake (shared modules: nix-core)";
 
   inputs = {
-    # Shared modules, static files and lib.mkFlake. Lags on purpose: pin a reviewed tag,
-    # e.g. github:Paramuno/nix-core/v2026.12.0; bump with `nix flake update core`, review, colmena.
-    core.url = "github:Paramuno/nix-core";
+    # Shared modules, static files and lib.mkFlake. Bump: `nsu` on cc2, commit flake.lock, colmena.
+    # To lag on purpose, pin a tag: ...nix-core?ref=refs/tags/v2026.12.0&shallow=1
+    # git transport, depth 1: an update fetches only what changed, not a full snapshot
+    core.url = "git+https://github.com/Paramuno/nix-core?shallow=1";
     # One nixpkgs for both repos: core's lock decides
     nixpkgs.follows = "core/nixpkgs";
 
