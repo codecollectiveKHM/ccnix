@@ -10,12 +10,11 @@
     home.packages = with pkgs; [
       diffnav
     ];
+    # identity (user.name/email) comes from each repo's modules/nixos/base/site.nix
     programs.git = {
       enable = true;
       ignores = [ ".direnv/" ];
       settings = {
-        user.name = "paramuno";
-        user.email = "wooxgfx@gmail.com";
         init.defaultBranch = "main";
         pull.rebase = true;
         core.editor = "nvim";
@@ -24,11 +23,6 @@
           show = "diffnav";
           log = "diffnav";
         };
-        # url = {
-        #   "git@github.com:" = {
-        #     insteadOf = "https://github.com/";
-        #   };
-        # };
       };
       # delta.enable = true;
     };

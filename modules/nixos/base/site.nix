@@ -13,6 +13,16 @@ in
   services.tailscale.extraSetFlags = [ "--ssh" ];
 
   home-manager.sharedModules = [
+    # Git identity for the primary user only: alle is shared by lab users
+    (
+      { config, lib, ... }:
+      {
+        programs.git.settings.user = lib.mkIf (config.home.username == user) {
+          name = "paramuno";
+          email = "wooxgfx@gmail.com";
+        };
+      }
+    )
     {
       # Lab LAN consumers tunnel in as alle (alle.lanSsh). Local 18000+, not 8000: cc1's JupyterHub holds it
       myModules.ai.edge0Servers = {
