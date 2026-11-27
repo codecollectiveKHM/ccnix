@@ -1,8 +1,0 @@
-[
-  {
-    "class": "Alacritty",
-    "title": "tudiff",
-    "layer": "tudiff"
-  },
-  { "class": "*", "title": "*", "layer": "default" }
-]
