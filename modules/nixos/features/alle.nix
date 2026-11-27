@@ -29,6 +29,14 @@ in
     networking.firewall.allowedTCPPorts = lib.mkIf cfg.lanSsh [ 22 ]; # base keeps sshd tailnet-only
     # nixpkgs drops pam_unix from sshd's auth stack when PasswordAuthentication is globally off
     security.pam.services.sshd.unixAuth = lib.mkIf cfg.lanSsh (lib.mkForce true);
+    # Password SSH from the LAN invites guessing: ban an address after 5 failures (10 min, longer for
+    # repeat offenders). The tailnet is exempt: key-only, and colmena deploys from it.
+    services.fail2ban = lib.mkIf cfg.lanSsh {
+      enable = true;
+      maxretry = 5;
+      ignoreIP = [ "100.64.0.0/10" ];
+      bantime-increment.enable = true;
+    };
 
     home-manager.users.alle.home.stateVersion = lib.mkDefault "25.05";
 
