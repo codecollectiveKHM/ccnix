@@ -44,6 +44,9 @@ in
         "com.bambulab.BambuStudio"
         "org.freecad.FreeCAD"
       ];
+      # This repo's ~/.scripts and fonts (not in nix-core)
+      myModules.bundles.cli.scriptsDir = ../../../static/scripts;
+      myModules.bundles.desktop.fontsDir = ../../../static/fonts;
     }
   ];
 

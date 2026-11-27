@@ -1,44 +1,17 @@
 {
-  description = "Code Collective lab: NixOS + Home Manager flake";
+  description = "Code Collective lab: NixOS + Home Manager flake (shared modules: nix-core)";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # follows: reuse this nixpkgs instead of each input's own pin (one nixpkgs to fetch/evaluate)
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    disko = {
-      url = "github:nix-community/disko/latest"; # Declarative partition modification & mounting
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest"; # flatpacks
-    agenix = {
-      url = "github:ryantm/agenix"; # agenix secrets colmena
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    colmena = {
-      url = "github:zhaofengli/colmena"; # CLI + lib.makeHive from one source
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.stable.follows = "nixpkgs";
-    };
+    # Shared modules, static files and lib.mkFlake. Lags on purpose: pin a reviewed tag,
+    # e.g. github:Paramuno/nix-core/v2026.12.0; bump with `nix flake update core`, review, colmena.
+    core.url = "github:Paramuno/nix-core";
+    # One nixpkgs for both repos: core's lock decides
+    nixpkgs.follows = "core/nixpkgs";
 
     # Particular sources
-    ags.url = "github:Aylur/ags/v1";
     # Claude's version comes from this repo's versions/*.json, not from nixpkgs
     nix-claude-code = {
       url = "github:ryoppippi/nix-claude-code";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    zjstatus = {
-      url = "github:dj95/zjstatus";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Pinned rev (b4d4ed4 failed to build on cc1): `nix flake update` can't move it. Bump: edit the
@@ -47,113 +20,25 @@
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
-    let
-      inherit (nixpkgs) lib;
-      system = "x86_64-linux";
-      pkgs = import nixpkgs ({ inherit system; } // hosts.nixpkgsArgs);
-      hosts = import ./lib { inherit inputs; };
-    in
-    {
-      # `direnv allow` / `nix develop`: editor tooling for this repo only
-      devShells.${system}.default = pkgs.mkShell {
-        name = "dotfiles-shell";
-        packages = with pkgs; [
-          tree-sitter
-          nil # Nix
-          nixfmt
-          kdlfmt
-          statix
-          deadnix
-          lua-language-server # Lua
-          stylua
-          vscode-langservers-extracted # JSON / YAML / HTML
-          yaml-language-server
-          marksman # markdown
-          taplo # TOML
-          bash-language-server # Bash / Shell scripts
-          shfmt
-          prettier # Generic formatters
-          gitleaks # .githooks/pre-commit
-          fd # static/scripts/readme-tree-update.sh
-          as-tree
-        ];
-        shellHook = ''
-          [ "$(git config core.hooksPath)" = .githooks ] ||
-            echo "hint: git config core.hooksPath .githooks  # gitleaks + nixfmt pre-commit"
-        '';
-      };
-
-      # `nix fmt`
-      formatter.${system} = pkgs.nixfmt-tree;
-
-      # `nix flake check`: lint, format, secret scan, Hyprland config.
-      # (nixosConfigurations are evaluated by flake check itself.)
-      checks.${system} =
-        let
-          src = ./.;
-          run =
-            name: inputs: cmd:
-            pkgs.runCommand "check-${name}" { nativeBuildInputs = inputs; } ''
-              cd ${src}
-              ${cmd}
-              touch $out
-            '';
-        in
+    inputs:
+    inputs.core.lib.mkFlake {
+      inherit inputs;
+      root = ./.;
+      tailnet = "tail92efad.ts.net"; # lab tailnet: change it here only
+      keys = import ./lib/keys.nix;
+      packages = import ./pkgs;
+      hyprlandCheckHost = "cc1";
+      # The installer ISO: not a hosts/ entry (no meta, no HM)
+      extraOutputs =
+        { lib, inputs, ... }:
         {
-          format = run "format" [ pkgs.nixfmt ] "find . -name '*.nix' -exec nixfmt --check {} +";
-          deadnix = run "deadnix" [ pkgs.deadnix ] "deadnix --fail --no-lambda-arg .";
-          statix = run "statix" [ pkgs.statix ] "statix check .";
-          gitleaks = run "gitleaks" [
-            pkgs.gitleaks
-          ] "gitleaks dir --no-banner --redact --exit-code 1 .";
-          privacy = run "privacy" [ ] "bash static/scripts/privacy-check.sh";
-          # Parse the real NixOS Hyprland config (cc1: hyprland.lua + sources.lua) with the locked Hyprland
-          hyprland-config =
-            let
-              host = self.nixosConfigurations.cc1.config;
-              hm = host.home-manager.users.${host.myModules.host.user};
-            in
-            pkgs.runCommand "check-hyprland-config" { nativeBuildInputs = [ pkgs.hyprland ]; } ''
-              export HOME=$TMPDIR XDG_RUNTIME_DIR=$TMPDIR XDG_CONFIG_HOME=$TMPDIR/.config
-              mkdir -p $XDG_CONFIG_HOME && cp -r ${./static/hypr} $XDG_CONFIG_HOME/hypr && chmod -R u+w $XDG_CONFIG_HOME
-              cp ${./static/hypr-sources.lua} $XDG_CONFIG_HOME/hypr/sources.lua
-              cp ${
-                pkgs.writeText "hyprland.lua" hm.xdg.configFile."hypr/hyprland.lua".text
-              } $XDG_CONFIG_HOME/hypr/hyprland.lua
-              Hyprland --verify-config -c $XDG_CONFIG_HOME/hypr/hyprland.lua 2>&1 | tee log
-              grep -q '^config ok' log
-              touch $out
-            '';
-        };
-
-      # `nix build .#<name>` for everything in pkgs/
-      packages.${system} = import ./pkgs { inherit pkgs inputs; };
-
-      # nixosConfigurations.<host> for every hosts/<host>/<host>-meta.nix, plus the installer ISO
-      nixosConfigurations = lib.mapAttrs (_: hosts.mkNixos) hosts.hosts // {
-        installer = lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            inputs.disko.nixosModules.disko
-            ./hosts/installer/installer.nix
-          ];
-        };
-      };
-
-      # `colmena apply --on @tag`; same module list as nixosConfigurations.
-      # Hosts with `frozen = true` in their meta are left out, so no apply can touch them.
-      colmenaHive = inputs.colmena.lib.makeHive (
-        {
-          meta = {
-            nixpkgs = nixpkgs.legacyPackages.${system}; # config/overlays come from the modules
+          nixosConfigurations.installer = lib.nixosSystem {
             specialArgs = { inherit inputs; };
+            modules = [
+              inputs.disko.nixosModules.disko
+              ./hosts/installer/installer.nix
+            ];
           };
-        }
-        // lib.mapAttrs (_: host: {
-          imports = hosts.nixosModules host ++ [ hosts.colmenaShim ];
-          inherit (host) deployment;
-        }) (lib.filterAttrs (_: host: !(host.frozen or false)) hosts.hosts)
-      );
+        };
     };
 }
