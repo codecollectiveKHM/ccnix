@@ -35,12 +35,12 @@ pkill -f 'ssh -fN edge0-cc2'                    # close the tunnel
 Every ccnix host other than the server has the `edge0-<server>` endpoint and tunnel (servers: `myModules.ai.edge0Servers` in `modules/nixos/base/site.nix`).
 Port 18000, not 8000: cc1's JupyterHub holds `127.0.0.1:8000`.
 
-Any other computer with Node.js 22.19+ (Linux, macOS, WSL): `static/scripts/edge0-connect.sh`
+Any other computer with Node.js 22.19+ (Linux, macOS, WSL): `edge0-connect.sh` (in nix-core's `static/scripts/`)
 installs pi 1.6.0 into `~/.local` if missing, opens the tunnel, starts edge0 if idle and adds the
 `edge0-cc2` provider to `~/.pi/agent/models.json` (backup kept):
 
 ```sh
-curl -fsSLO https://raw.githubusercontent.com/codecollectiveKHM/ccnix/main/static/scripts/edge0-connect.sh
+curl -fsSLO https://raw.githubusercontent.com/Paramuno/nix-core/main/static/scripts/edge0-connect.sh
 chmod +x edge0-connect.sh
 ./edge0-connect.sh up        # alle's password once; then pi → /model → Edge0 145B (cc2)
 ./edge0-connect.sh down      # close the tunnel (status | stop-server also available)
