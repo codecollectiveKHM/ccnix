@@ -28,6 +28,10 @@
       { gpg.pinentry = lib.mkDefault pkgs.pinentry-tty; } # lab: no rofi pinentry
     ];
 
+    # SSH keys stay with the system ssh-agent (site.nix startAgent): gpg-agent's ssh mode asks again
+    # through pinentry-tty on whichever tty it last saw, so ssh and colmena hit "agent refused operation"
+    services.gpg-agent.enableSshSupport = lib.mkForce false;
+
     home.packages = with pkgs; [
       inputs.nix-claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default # llm agent cli
       jan # llm manager
