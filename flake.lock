@@ -101,10 +101,10 @@
         "zjstatus": "zjstatus"
       },
       "locked": {
-        "lastModified": 1795824122,
-        "narHash": "sha256-SKrE9a7XHiJ2VcDIXdJ4ZEdP3hh8tTQ8b5x3w0uX73Y=",
+        "lastModified": 1795867150,
+        "narHash": "sha256-YhJERL1hHx4sK7+qaK7zpQG+RGdWnK/w2yhvgSq9uns=",
         "ref": "refs/heads/main",
-        "rev": "40863f9a08c34eea1f84cc6bdb742ee712d3e689",
+        "rev": "7dedad05b95812e4f2a2edf48686a70a8605a9e1",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/Paramuno/nix-core"
